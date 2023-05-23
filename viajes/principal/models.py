@@ -8,13 +8,12 @@ class Usuario(models.Model):
     nombreUsuario  = models.CharField(max_length=200,null=False)
     correo = models.EmailField(max_length=254,null=False)
     password = models.CharField(max_length=200,null=False)
-    foto = models.CharField(max_length=200,null=True)
+    foto = models.ImageField(verbose_name='foto',upload_to='viajes')
 
     class Meta:
         verbose_name='usuario'
         verbose_name_plural="usuarios"
-        ordering=['-created']
-
+        
     def __str__(self):
         return self.nombreUsuario
 
@@ -27,43 +26,44 @@ class Alojamiento(models.Model):
     nhuespuedes = models.IntegerField()
     direccion = models.CharField(max_length=200)
     precio = models.FloatField()
-    fotos = models.CharField(max_length=200)
+    fotos = models.ImageField(verbose_name='foto',upload_to='viajes')
 
     class Meta:
         verbose_name='alojamiento'
         verbose_name_plural="alojamientos"
-        ordering=['-created']
+        
 
     def __str__(self):
-        return self.modelo
+        return self.nombre
 
 class Desplazamiento(models.Model): 
     idDesplazamiento = models.AutoField(primary_key=True,null=False)
     vehiculo  = models.CharField(max_length=200)
     precio = models.FloatField()
-    foto  = models.CharField(max_length=200)
+    foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
 
     class Meta:
         verbose_name='desplazamiento'
         verbose_name_plural="desplazamientos"
-        ordering=['-created']
+       
 
     def __str__(self):
-        return self.modelo
+        return self.vehiculo
 
 class Paquete(models.Model):
     idPaquete = models.AutoField(primary_key=True,null=False)
     descripcion  = models.TextField()
+    nombre  = models.CharField(max_length=200)
     precio = models.FloatField()
-    foto  = models.CharField(max_length=200)
+    foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
 
     class Meta:
         verbose_name='paquete'
         verbose_name_plural="paquetes"
-        ordering=['-created']
+        
 
     def __str__(self):
-        return self.modelo
+        return self.nombre
     
 class Viaje(models.Model):
     idViaje = models.AutoField(primary_key=True,null=False)
@@ -77,7 +77,7 @@ class Viaje(models.Model):
     class Meta:
         verbose_name='viaje'
         verbose_name_plural="viajes"
-        ordering=['-created']
+        
 
     def __str__(self):
-        return self.modelo
+        return self.idViaje
