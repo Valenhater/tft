@@ -4,7 +4,7 @@ from django.utils.timezone import now
 
 # Create your models here.
 class Usuario(models.Model):
-    idUsuario = models.models.AutoField(primary_key=True,null=False)
+    idUsuario = models.AutoField(primary_key=True,null=False)
     nombreUsuario  = models.CharField(max_length=200,null=False)
     correo = models.EmailField(max_length=254,null=False)
     password = models.CharField(max_length=200,null=False)
@@ -19,7 +19,7 @@ class Usuario(models.Model):
         return self.nombreUsuario
 
 class Alojamiento(models.Model): 
-    idAlojamiento = models.models.AutoField(primary_key=True,null=False)
+    idAlojamiento = models.AutoField(primary_key=True,null=False)
     nombre  = models.CharField(max_length=200)
     descripcion = models.FloatField()
     nhabitaciones = models.IntegerField()
@@ -38,7 +38,7 @@ class Alojamiento(models.Model):
         return self.modelo
 
 class Desplazamiento(models.Model): 
-    idDesplazamiento = models.models.AutoField(primary_key=True,null=False)
+    idDesplazamiento = models.AutoField(primary_key=True,null=False)
     vehiculo  = models.CharField(max_length=200)
     precio = models.FloatField()
     foto  = models.CharField(max_length=200)
@@ -52,7 +52,7 @@ class Desplazamiento(models.Model):
         return self.modelo
 
 class Paquete(models.Model):
-    idPaquete = models.models.AutoField(primary_key=True,null=False)
+    idPaquete = models.AutoField(primary_key=True,null=False)
     descripcion  = models.TextField()
     precio = models.FloatField()
     foto  = models.CharField(max_length=200)
@@ -66,10 +66,10 @@ class Paquete(models.Model):
         return self.modelo
     
 class Viaje(models.Model):
-    idViaje = models.models.AutoField(primary_key=True,null=False)
-    idUsuario = models.models.AutoField(primary_key=True,null=False)
-    idAlojamiento = models.models.AutoField(primary_key=True,null=False)
-    idPaquete = models.models.AutoField(primary_key=True,null=False)
+    idViaje = models.AutoField(primary_key=True,null=False)
+    idUsuario = models.IntegerField()
+    idAlojamiento = models.IntegerField()
+    idPaquete = models.IntegerField()
     nHuespedes = models.FloatField()
     salida  = models.CharField(max_length=200)
     llegada  = models.CharField(max_length=200)
