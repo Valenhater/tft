@@ -30,8 +30,53 @@ class Alojamiento(models.Model):
     fotos = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name='camion'
-        verbose_name_plural="camiones"
+        verbose_name='alojamiento'
+        verbose_name_plural="alojamientos"
+        ordering=['-created']
+
+    def __str__(self):
+        return self.modelo
+
+class Desplazamiento(models.Model): 
+    idDesplazamiento = models.models.AutoField(primary_key=True,null=False)
+    vehiculo  = models.CharField(max_length=200)
+    precio = models.FloatField()
+    foto  = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name='desplazamiento'
+        verbose_name_plural="desplazamientos"
+        ordering=['-created']
+
+    def __str__(self):
+        return self.modelo
+
+class Paquete(models.Model):
+    idPaquete = models.models.AutoField(primary_key=True,null=False)
+    descripcion  = models.TextField()
+    precio = models.FloatField()
+    foto  = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name='paquete'
+        verbose_name_plural="paquetes"
+        ordering=['-created']
+
+    def __str__(self):
+        return self.modelo
+    
+class Viaje(models.Model):
+    idViaje = models.models.AutoField(primary_key=True,null=False)
+    idUsuario = models.models.AutoField(primary_key=True,null=False)
+    idAlojamiento = models.models.AutoField(primary_key=True,null=False)
+    idPaquete = models.models.AutoField(primary_key=True,null=False)
+    nHuespedes = models.FloatField()
+    salida  = models.CharField(max_length=200)
+    llegada  = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name='viaje'
+        verbose_name_plural="viajes"
         ordering=['-created']
 
     def __str__(self):
