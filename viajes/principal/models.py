@@ -51,7 +51,8 @@ class Desplazamiento(models.Model):
     vehiculo  = models.CharField(max_length=200)
     precio = models.FloatField()
     foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
-    destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
+    destino = models.ForeignKey(Destino, related_name='viaje_destino', on_delete=models.CASCADE)
+    origen = models.ForeignKey(Destino, related_name='viaje_origen', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name='desplazamiento'

@@ -29,7 +29,7 @@ def vista2(request):
 
     context = {
         'destinos': dest,
-        'alojaminetos': alo,
+        'alojamientos': alo,
         'desplazamientos': desp,
         'paquetes': paq,
         'viajes': via,

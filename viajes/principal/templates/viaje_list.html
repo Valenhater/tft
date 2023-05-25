@@ -43,7 +43,7 @@
         <input type="search" placeholder="Where do you want to go?" list="destinos">
         <datalist id="destinos">
           {% for d in destinos %}
-            <option value="{{ d.nomDestino }}">
+            <option value="{{ d.nombre }}">
           {% endfor %}
         </datalist>
         <input type="submit" value="Search">
