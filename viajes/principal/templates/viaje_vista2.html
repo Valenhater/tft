@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<!-- {% for p in paquetes %}<p>-</p><li>{{p.nombre}} - {{p.descripcion}} {{p.precio}}</li>{% endfor %} -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'viajes/css/estilos2.css' %}">
+    <title>Viajes Valegio</title>
+</head>
+<body>
+    <h1>Alojamientos</h1>
+    {% for a in alojamientos %}
+        <p>- {{ a.nombre }}</p>
+    {% endfor %}
+
+    <h1>Desplazamiento</h1>
+    {% for d in desplazamientos %}
+         <p>- {{ a.vehiculo }} a {{ d.idDestino }}</p>
+    {% endfor %}
+
+    <h1>Paquete</h1>
+    {% for p in paquetes %}
+         <p>- {{ p.nombre }}</p>
+    {% endfor %}
+
+    <h1>Destino</h1>
+    {% for d in destinos %}
+         <p>- {{ d.nomDestino }}</p>
+    {% endfor %}
+</body>
+</html>

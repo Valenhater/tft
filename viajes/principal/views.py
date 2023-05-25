@@ -1,5 +1,5 @@
 #from django.shortcuts import get_list_or_404, render
-from .models import Paquete
+from .models import Destino, Alojamiento, Desplazamiento, Paquete, Viaje
 #from django.http import HttpResponse
 #from django.template import loader
 #from django.views.generic.list import request
@@ -13,12 +13,26 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 def vista1(request):
-   lc = Paquete.objects.all()
+   dest = Destino.objects.all()
    context = {
-        'paquetes': lc,
+        'destinos': dest,
     }
    plantilla = loader.get_template('viaje_list.html')
    return HttpResponse(plantilla.render(context, request))
 
-def vista2():
-    pass
+def vista2(request):
+    dest = Destino.objects.all()
+    alo = Alojamiento.objects.all()
+    desp = Desplazamiento.objects.all()
+    paq = Paquete.objects.all()
+    via = Viaje.objects.all()
+
+    context = {
+        'destinos': dest,
+        'alojaminetos': alo,
+        'desplazamientos': desp,
+        'paquetes': paq,
+        'viajes': via,
+    }
+    plantilla = loader.get_template('viaje_vista2.html')
+    return HttpResponse(plantilla.render(context, request))

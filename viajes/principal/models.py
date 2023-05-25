@@ -15,16 +15,28 @@ class Usuario(models.Model):
         verbose_name_plural="usuarios"
         
     def __str__(self):
-        return self.nombreUsuario
+        return self.idUsuario
+    
+class Destino(models.Model):
+    idDestino = models.AutoField(primary_key=True)
+    nomDestino = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name = 'destino'
+        verbose_name_plural = 'destinos'
+
+    def __str__(self):
+        return self.nomDestino
 
 class Alojamiento(models.Model): 
     idAlojamiento = models.AutoField(primary_key=True,null=False)
     nombre  = models.CharField(max_length=200)
-    descripcion = models.FloatField()
+    tipo  = models.CharField(max_length=200)
+    descripcion = models.TextField()
     nhabitaciones = models.IntegerField()
     nbanos = models.IntegerField()
     nhuespuedes = models.IntegerField()
-    idDestino = models.IntegerField()
+    destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
     precio = models.FloatField()
     fotos = models.ImageField(verbose_name='foto',upload_to='viajes')
 
@@ -34,14 +46,14 @@ class Alojamiento(models.Model):
         
 
     def __str__(self):
-        return self.nombre
+        return self.idAlojamiento
 
 class Desplazamiento(models.Model): 
     idDesplazamiento = models.AutoField(primary_key=True,null=False)
     vehiculo  = models.CharField(max_length=200)
     precio = models.FloatField()
     foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
-    idDestino = models.IntegerField()
+    destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name='desplazamiento'
@@ -49,12 +61,12 @@ class Desplazamiento(models.Model):
        
 
     def __str__(self):
-        return self.vehiculo
+        return self.idDesplazamiento
 
 class Paquete(models.Model):
     idPaquete = models.AutoField(primary_key=True,null=False)
-    descripcion  = models.TextField()
     nombre  = models.CharField(max_length=200)
+    descripcion  = models.TextField()
     precio = models.FloatField()
     foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
 
@@ -64,15 +76,15 @@ class Paquete(models.Model):
         
 
     def __str__(self):
-        return self.nombre
+        return self.idPaquete
     
 class Viaje(models.Model):
     idViaje = models.AutoField(primary_key=True,null=False)
-    idUsuario = models.IntegerField()
-    idAlojamiento = models.IntegerField()
-    idDesplazamientoIda = models.IntegerField(null=False)
-    idDesplazamientoVuelta = models.IntegerField(null=False)
-    idPaquete = models.IntegerField()
+    idUsuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    idAlojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
+    idDesplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
+    idDesplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
+    idPaquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
     nHuespedes = models.FloatField()
     salida  = models.CharField(max_length=200)
     llegada  = models.CharField(max_length=200)
@@ -85,14 +97,3 @@ class Viaje(models.Model):
     def __str__(self):
         return self.idViaje
 
-class Destino(models.Model):
-    idDestino = models.AutoField(primary_key=True,null=False)
-    nomDestino = models.CharField(max_length=200)
-
-    class Meta:
-        verbose_name='destino'
-        verbose_name_plural="destinos"
-        
-
-    def __str__(self):
-        return self.nomDestino
