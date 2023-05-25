@@ -24,7 +24,7 @@ class Alojamiento(models.Model):
     nhabitaciones = models.IntegerField()
     nbanos = models.IntegerField()
     nhuespuedes = models.IntegerField()
-    direccion = models.CharField(max_length=200)
+    idDestino = models.IntegerField()
     precio = models.FloatField()
     fotos = models.ImageField(verbose_name='foto',upload_to='viajes')
 
@@ -41,6 +41,7 @@ class Desplazamiento(models.Model):
     vehiculo  = models.CharField(max_length=200)
     precio = models.FloatField()
     foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
+    idDestino = models.IntegerField()
 
     class Meta:
         verbose_name='desplazamiento'
@@ -69,6 +70,8 @@ class Viaje(models.Model):
     idViaje = models.AutoField(primary_key=True,null=False)
     idUsuario = models.IntegerField()
     idAlojamiento = models.IntegerField()
+    idDesplazamientoIda = models.IntegerField(null=False)
+    idDesplazamientoVuelta = models.IntegerField(null=False)
     idPaquete = models.IntegerField()
     nHuespedes = models.FloatField()
     salida  = models.CharField(max_length=200)
@@ -81,3 +84,15 @@ class Viaje(models.Model):
 
     def __str__(self):
         return self.idViaje
+
+class Destino(models.Model):
+    idDestino = models.AutoField(primary_key=True,null=False)
+    nomDestino = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name='destino'
+        verbose_name_plural="destinos"
+        
+
+    def __str__(self):
+        return self.nomDestino
