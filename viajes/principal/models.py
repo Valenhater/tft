@@ -4,8 +4,7 @@ from django.utils.timezone import now
 
 # Create your models here.
 class Usuario(models.Model):
-    idUsuario = models.AutoField(primary_key=True,null=False)
-    nombreUsuario  = models.CharField(max_length=200,null=False)
+    nombre  = models.CharField(max_length=200,null=False)
     correo = models.EmailField(max_length=254,null=False)
     password = models.CharField(max_length=200,null=False)
     foto = models.ImageField(verbose_name='foto',upload_to='viajes')
@@ -13,23 +12,23 @@ class Usuario(models.Model):
     class Meta:
         verbose_name='usuario'
         verbose_name_plural="usuarios"
-        
+    
     def __str__(self):
-        return self.idUsuario
+        return self.nombre
     
 class Destino(models.Model):
-    idDestino = models.AutoField(primary_key=True)
-    nomDestino = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=200)
+    descripcion = models.TextField()
+    foto = models.ImageField(verbose_name='foto',upload_to='viajes')
 
     class Meta:
         verbose_name = 'destino'
         verbose_name_plural = 'destinos'
 
     def __str__(self):
-        return self.nomDestino
+        return self.nombre
 
 class Alojamiento(models.Model): 
-    idAlojamiento = models.AutoField(primary_key=True,null=False)
     nombre  = models.CharField(max_length=200)
     tipo  = models.CharField(max_length=200)
     descripcion = models.TextField()
@@ -43,13 +42,12 @@ class Alojamiento(models.Model):
     class Meta:
         verbose_name='alojamiento'
         verbose_name_plural="alojamientos"
-        
 
     def __str__(self):
-        return self.idAlojamiento
+        return self.nombre
 
 class Desplazamiento(models.Model): 
-    idDesplazamiento = models.AutoField(primary_key=True,null=False)
+    nombre = models.CharField(max_length=200)
     vehiculo  = models.CharField(max_length=200)
     precio = models.FloatField()
     foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
@@ -58,13 +56,11 @@ class Desplazamiento(models.Model):
     class Meta:
         verbose_name='desplazamiento'
         verbose_name_plural="desplazamientos"
-       
-
+    
     def __str__(self):
-        return self.idDesplazamiento
+        return self.nombre
 
 class Paquete(models.Model):
-    idPaquete = models.AutoField(primary_key=True,null=False)
     nombre  = models.CharField(max_length=200)
     descripcion  = models.TextField()
     precio = models.FloatField()
@@ -73,18 +69,16 @@ class Paquete(models.Model):
     class Meta:
         verbose_name='paquete'
         verbose_name_plural="paquetes"
-        
 
     def __str__(self):
-        return self.idPaquete
+        return self.nombre
     
 class Viaje(models.Model):
-    idViaje = models.AutoField(primary_key=True,null=False)
-    idUsuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    idAlojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
-    idDesplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
-    idDesplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
-    idPaquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
+    Usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    Alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
+    DesplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
+    DesplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
+    Paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
     nHuespedes = models.FloatField()
     salida  = models.CharField(max_length=200)
     llegada  = models.CharField(max_length=200)
@@ -92,8 +86,7 @@ class Viaje(models.Model):
     class Meta:
         verbose_name='viaje'
         verbose_name_plural="viajes"
-        
 
     def __str__(self):
-        return self.idViaje
+        return self.nombre
 
