@@ -11,14 +11,40 @@
     <title>Viajes Valegio</title>
 </head>
 <body>
+    <h1></h1>
+    <form action="confViaje/" method="POST">
+        {% csrf_token %}
+        <label for="origen">Desde:</label>
+        <input type="search" name="origen" placeholder="Origen" list="destinos">
+        <label for="destino">a:</label>
+        <input type="search" name="destino" placeholder="Destino" list="destinos">
+        <label for="salida">Salida</label>
+        <input type="date" name="salida">
+        <label for="salida">Llegada</label>
+        <input type="date" name="llegada">
+        <label for="salida">Viajeros</label>
+        <input type="number" min="1" name="viajeros">
+        <datalist id="destinos">
+            {% for d in destinos %}
+              <option value="{{ d.nombre }}">
+            {% endfor %}
+        </datalist>
+        <button type="submit" >enviar</button>
+    </form>
+
     <h1>Alojamientos</h1>
     {% for a in alojamientos %}
         <p>- {{ a.nombre }}</p>
     {% endfor %}
 
-    <h1>Desplazamiento</h1>
-    {% for d in desplazamientos %}
-         <p>-{{ d.nombre }} {{ d.vehiculo }} a {{ d.destino }}</p>
+    <h1>Desplazamiento Ida</h1>
+    {% for d in desplazamientosOrigen %}
+         <p>-{{ d.nombre }} a {{ d.destino }}</p>
+    {% endfor %}
+
+    <h1>Desplazamiento Vuelta</h1>
+    {% for d in desplazamientosDestino %}
+         <p>-{{ d.nombre }} a {{ d.destino }}</p>
     {% endfor %}
 
     <h1>Paquete</h1>

@@ -51,8 +51,9 @@ class Desplazamiento(models.Model):
     vehiculo  = models.CharField(max_length=200)
     precio = models.FloatField()
     foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
-    destino = models.ForeignKey(Destino, related_name='viaje_destino', on_delete=models.CASCADE)
     origen = models.ForeignKey(Destino, related_name='viaje_origen', on_delete=models.CASCADE)
+    destino = models.ForeignKey(Destino, related_name='viaje_destino', on_delete=models.CASCADE)
+    
 
     class Meta:
         verbose_name='desplazamiento'
@@ -66,6 +67,7 @@ class Paquete(models.Model):
     descripcion  = models.TextField()
     precio = models.FloatField()
     foto  = models.ImageField(verbose_name='foto',upload_to='viajes')
+    destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name='paquete'
@@ -75,11 +77,11 @@ class Paquete(models.Model):
         return self.nombre
     
 class Viaje(models.Model):
-    Usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    Alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
-    DesplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
-    DesplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
-    Paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
+    desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
+    desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
+    paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
     nHuespedes = models.FloatField()
     salida  = models.CharField(max_length=200)
     llegada  = models.CharField(max_length=200)

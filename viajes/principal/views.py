@@ -36,3 +36,37 @@ def vista2(request):
     }
     plantilla = loader.get_template('viaje_vista2.html')
     return HttpResponse(plantilla.render(context, request))
+
+def vista3(request):
+    dest = Destino.objects.all()
+    alo = Alojamiento.objects.filter(destino__nombre=request.POST['destino'])
+    despOrigen = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'])
+    despDestino = Desplazamiento.objects.filter(origen__nombre=request.POST['destino'])
+    paq = Paquete.objects.filter(destino__nombre=request.POST['destino'])
+
+    print(despOrigen, despDestino)
+
+    context = {
+        'destinos': dest,
+        'alojamientos': alo,
+        'desplazamientosOrigen': despOrigen,
+        'desplazamientosDestino': despDestino,
+        'paquetes': paq,
+    }
+
+    # Filtrar alojamientos segun destino:
+    # Opción 1:
+    #alojamiento = Alojamiento.objects.filter(destino__nombre=request.POST['destino'])
+
+    # Opción 2:
+    #destinoId = Destino.objects.filter(nombre=request.POST['destino'])
+    #alojamiento = Alojamiento.objects.filter(destino=destinoId.id)
+
+    #Filtrar desplazamientos por destino y origen:
+    # desplazamientosIda = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'], destino__nombre=request.POST['destino'])
+    # desplazamientosVuelta = Desplazamiento.objects.filter(origen__nombre=request.POST['destino'], destino__nombre=request.POST['origen']) 
+
+    # print (alojamiento, desplazamientosIda, desplazamientosVuelta)
+
+    plantilla = loader.get_template('viaje_vista2.html')
+    return HttpResponse(plantilla.render(context, request))
