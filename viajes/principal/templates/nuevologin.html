@@ -1,21 +1,19 @@
-<!-- login.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Iniciar sesión</h2>
-<form method="POST">
-  {% csrf_token %}
-  <form method="post">
+<div class="container my-5">
+  <h2 class="text-center">Iniciar sesión</h2>
+  <form method="POST" class="my-4">
     {% csrf_token %}
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username">
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password">
-    <br>
-    <input type="submit" value="Login">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
   </form>
-  
-  <button type="submit">Iniciar sesión</button>
-</form>
+</div>
 {% endblock %}
