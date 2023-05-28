@@ -7,10 +7,13 @@ from .models import Destino, Alojamiento, Desplazamiento, Paquete, Viaje, Foto
 #from django.views.generic.edit import CreateView, UpdateView, DeleteView
 #from django.urls import reverse, reverse_lazy
 #from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth import authenticate, login
+from .forms import RegisterForm
+
 
 def vista1(request):
    dest = Destino.objects.all()
@@ -54,6 +57,7 @@ def vista3(request):
         'paquetes': paq,
     }
 
+    
     # Filtrar alojamientos segun destino:
     # Opción 1:
     #alojamiento = Alojamiento.objects.filter(destino__nombre=request.POST['destino'])
@@ -70,3 +74,32 @@ def vista3(request):
 
     plantilla = loader.get_template('viaje_vista2.html')
     return HttpResponse(plantilla.render(context, request))
+
+    
+def home(request):
+    # Lógica de la vista home
+    return render(request, 'home.html')
+
+def registrar(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(reverse('home'))  # Utiliza reverse para generar la URL de la vista 'home'
+    else:
+        form = RegisterForm()
+    return render(request, 'registrar.html', {'form': form})
+
+def nuevologin(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(reverse('home'))  # Utiliza reverse para generar la URL de la vista 'home'
+        else:
+            # Mostrar un mensaje de error de inicio de sesión inválido
+            pass
+    return render(request, 'nuevologin.html')
