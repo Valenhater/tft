@@ -2,19 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser,Group, Permission
-# Create your models here.
-class Usuario(models.Model):
-    nombre  = models.CharField(max_length=200,null=False)
-    correo = models.EmailField(max_length=254,null=False)
-    password = models.CharField(max_length=200,null=False)
-    foto = models.ImageField(verbose_name='foto',upload_to='viajes')
-
-    class Meta:
-        verbose_name='usuario'
-        verbose_name_plural="usuarios"
-    
-    def __str__(self):
-        return self.nombre
     
 class Destino(models.Model):
     nombre = models.CharField(max_length=200)
@@ -83,23 +70,6 @@ class Paquete(models.Model):
     def __str__(self):
         return self.nombre
     
-class Viaje(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
-    desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
-    desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
-    paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
-    nHuespedes = models.FloatField()
-    salida  = models.CharField(max_length=200)
-    llegada  = models.CharField(max_length=200)
-
-    class Meta:
-        verbose_name='viaje'
-        verbose_name_plural="viajes"
-
-    def __str__(self):
-        return self.nombre
-
 #bbdd del login
 class CustomUser(AbstractUser):
     # Otros campos de tu modelo CustomUser
@@ -123,3 +93,20 @@ class CustomUser(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     # Agrega campos adicionales para el perfil
+
+class Viaje(models.Model):
+    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
+    desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
+    desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
+    paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
+    nHuespedes = models.FloatField()
+    salida  = models.CharField(max_length=200)
+    llegada  = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name='viaje'
+        verbose_name_plural="viajes"
+
+    def __str__(self):
+        return self.nombre
