@@ -37,7 +37,6 @@ class Alojamiento(models.Model):
     nhuespuedes = models.IntegerField()
     destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
     precio = models.FloatField()
-    fotos = models.ImageField(verbose_name='foto',upload_to='viajes')
 
     class Meta:
         verbose_name='alojamiento'
@@ -45,6 +44,14 @@ class Alojamiento(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class Foto(models.Model):
+    foto = models.ImageField(verbose_name='foto',upload_to='viajes')
+    alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name='foto'
+        verbose_name_plural="fotos"
 
 class Desplazamiento(models.Model): 
     nombre = models.CharField(max_length=200)

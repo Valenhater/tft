@@ -35,7 +35,6 @@
         </form>
     </div>
     <br>
-
     <div class="container">
         <div class="container-wrapper">
             <h1>Alojamientos</h1>
@@ -44,7 +43,9 @@
             <div class="container2">
                 {% for a in alojamientos %}
                 <div class="photo">
-                    <img src="/media/{{ a.fotos }}" alt="">
+                    {% for f in fotos %}
+                    <img src="/media/{{ f.fotos }}" alt="">
+                    {% endfor %}
                 </div>
                 <div class="data">
                     <p>- {{ a.nombre }}</p>
@@ -55,30 +56,40 @@
     </div>
     <br>
     <div class="container">
-        <div class="container2">
+        <div class="container-wrapper">
             <h1>Desplazamiento Ida</h1>
-            {% for d in desplazamientosOrigen %}
-            <p>-{{ d.nombre }} a {{ d.destino }}</p>
-            {% endfor %}
         </div>
-        <br>
-        <div class="container2">
-            <h1>Desplazamiento Vuelta</h1>
-            {% for d in desplazamientosDestino %}
-            <p>-{{ d.nombre }} a {{ d.destino }}</p>
-            {% endfor %}
+        <div class="container-wrapper">
+            <div class="container2">
+                {% for d in desplazamientosOrigen %}
+                <div class="photo">
+                    <img src="/media/{{ d.foto }}" alt="">
+                </div>
+                <div class="data">
+                    <p>-{{ d.nombre }} a {{ d.destino }}</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <br>
     <div class="container">
-        <div class="container2">
-            <h1>Paquete</h1>
-            {% for p in paquetes %}
-            <p>- {{ p.nombre }}</p>
-            {% endfor %}
+        <div class="container-wrapper">
+            <h1>Desplazamiento Vuelta</h1>
+        </div>
+        <div class="container-wrapper">
+            <div class="container2">
+                {% for d in desplazamientosDestino %}
+                <div class="photo">
+                    <img src="/media/{{ d.foto }}" alt="">
+                </div>
+                <div class="data">
+                    <p>-{{ d.nombre }} a {{ d.destino }}</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-    <br>
 </body>
 
 </html>

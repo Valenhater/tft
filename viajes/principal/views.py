@@ -1,5 +1,5 @@
 #from django.shortcuts import get_list_or_404, render
-from .models import Destino, Alojamiento, Desplazamiento, Paquete, Viaje
+from .models import Destino, Alojamiento, Desplazamiento, Paquete, Viaje, Foto
 #from django.http import HttpResponse
 #from django.template import loader
 #from django.views.generic.list import request
