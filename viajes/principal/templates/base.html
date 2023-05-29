@@ -1,34 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Título de la página</title>
-    <!-- Incluir los archivos CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <title>Valegio</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'viajes/css/estilos.css' %}">
 </head>
 <body>
-    <header class="bg-primary text-white text-center py-5">
-        <!-- Encabezado con estilo de Bootstrap -->
-        <h1 class="display-4">Encabezado de la página</h1>
+    <header>
+        
     </header>
-
-    <main class="container d-flex justify-content-center my-5">
-        <!-- Contenido principal centrado -->
-        <div class="col-lg-8">
-            {% block content %}
-            <!-- Aquí puedes agregar tu contenido específico -->
-            {% endblock %}
+    <div class="contLogin">
+        <div class="formulario">
+                {% block content %}
+                {% endblock %}
         </div>
-        <div class="col-lg-4">
-            <!-- Aquí puedes agregar contenido adicional, como una barra lateral -->
-        </div>
-    </main>
-
-    <footer class="bg-dark text-white text-center py-3">
-        <!-- Pie de página con estilo de Bootstrap -->
-        <p>Pie de página</p>
-    </footer>
-
-    <!-- Incluir los archivos JS de Bootstrap al final del documento -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
 </body>
 </html>

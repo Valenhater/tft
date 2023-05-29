@@ -1,23 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <h2 class="text-center">Registro</h2>
-      <form method="POST" class="my-4 border p-4">
-        {% csrf_token %}
-        {% for field in form %}
-          <div class="form-group">
-            {{ field.label_tag }}
-            {{ field }}
-          </div>
-        {% endfor %}
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary">Registrarse</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+<h2>Registro</h2>
+<form method="POST">
+  {% csrf_token %}
+  <table class="register">
+    {% for field in form %}
+    <tr>
+      <td>{{ field.label_tag }}</td>
+      <td>{{ field }}</td>
+    </tr>
+    {% endfor %}
+  </table><br>
+  <button type="submit" class="btn btn-primary">Registrarse</button><br><br>
+  <div>Ya estas registrado? <a href="../nuevologin">Logueate</a></div>
+</form>
+
 {% endblock %}

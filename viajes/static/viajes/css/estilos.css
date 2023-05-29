@@ -1,10 +1,9 @@
 .formulario {
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  
+  margin-top: 20px;
 }
 
 .formulario h2 {
@@ -39,53 +38,65 @@
   background-color: #45a049;
 }
 
-.formulario input{
-  width: 10vw;
+.formulario input {
+  width: 6vw;
 }
 
-.container {
-  width: 90%;
+.contenedor {
+  width: 80%;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #FFF;
+  margin-top: 20px;
 }
 
-.container-wrapper {
+.contenedor-wrapper {
   display: flex;
   justify-content: center;
+  width: 100%;
+  flex-direction: column;
 }
 
-.container2 {
-  width: 90%;
+.contenedor2 {
+  width: 100%;
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  display: flex;
+  border: 1px solid #FFF;
+  display: flex
 }
 
-.container2 .photo {
+.contenedor2 .photo {
   flex: 0 0 40%;
-  padding: 20px;
+  padding: 5px;
   display: flex;
   align-items: center;
 }
 
-.container2 .data {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+.carousel-item img {
+  width: 23vw;
+  height: 12vw;
+  object-fit: cover;
 }
 
-.container2 .data p {
-  margin-top: 0;
-  margin-bottom: 10px;
+
+.carousel-item {
+  width: 23vw;
+  height: 12vw;
+  object-fit: cover;
 }
 
-img{
-  width: 15vw;
+.carousel-item {
+  width: 23vw;
+  height: 12vw;
+  object-fit: cover;
+}
+
+.photo img{
+  width: 18vw;
+  height: 10vw;
+  object-fit: cover;
 }
 
 body {
@@ -98,3 +109,10 @@ a {
   color: #000;
 }
 
+.cbox input{
+  margin: auto;
+}
+
+.register{
+  margin: auto;
+}

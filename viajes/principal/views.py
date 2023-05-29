@@ -42,7 +42,7 @@ def vista2(request):
 
 def vista3(request):
     dest = Destino.objects.all()
-    alo = Alojamiento.objects.filter(destino__nombre=request.POST['destino'])
+    alo = Alojamiento.objects.filter(destino__nombre=request.POST['destino']).prefetch_related('foto_set')
     despOrigen = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'])
     despDestino = Desplazamiento.objects.filter(origen__nombre=request.POST['destino'])
     paq = Paquete.objects.filter(destino__nombre=request.POST['destino'])
