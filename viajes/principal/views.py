@@ -15,12 +15,12 @@ from django.contrib.auth import authenticate, login
 from .forms import RegisterForm
 
 
-def vista1(request):
+def buscarViaje(request):
    dest = Destino.objects.all()
    context = {
         'destinos': dest,
     }
-   plantilla = loader.get_template('viaje_list.html')
+   plantilla = loader.get_template('viaje_search.html')
    return HttpResponse(plantilla.render(context, request))
 
 def vista2(request):

@@ -1,9 +1,10 @@
 .formulario {
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
   margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .formulario h2 {
@@ -47,7 +48,6 @@
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #FFF;
   margin-top: 20px;
 }
 
@@ -115,4 +115,28 @@ a {
 
 .register{
   margin: auto;
+}
+
+.fondo {
+  background-image: url(https://wallpapershome.com/images/wallpapers/lake-louise-3840x2160-4k-hd-wallpaper-sanada-travel-mountain-12772.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  
+}
+
+.fondo::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(https://wallpapershome.com/images/wallpapers/lake-louise-3840x2160-4k-hd-wallpaper-sanada-travel-mountain-12772.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);
+  z-index: -1;
 }
