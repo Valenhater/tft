@@ -16,51 +16,37 @@
 </head>
 
 <body>
-  <div class="container">
-
-    <header>
-      <h2><a href="#"><i class="ion-plane"></i> Valegio </a></h2>
-      <nav>
-        <ul>
-          <li>
-            <a href="#" title="Alojamiento">Alojamiento</a>
-          </li>
-          <li>
-            <a href="#" title="Desplazamiento">Desplazamiento</a>
-          </li>
-          <li>
-            <a href="#" title="Tours">Tours</a>
-          </li>
-          <li>
-            <a class="btn" href="#" title="Register / Log In">Register/Log In</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-
-    <div class="cover">
-      <h1>Descubre que hay ahi afuera.</h1>
-      <form class="flex-form">
-        <label for="from">
-          <i class="ion-location"></i>
-        </label>
-        <input type="search" placeholder="Donde quieres ir?" list="destinos">
-        <datalist id="destinos">
-          {% for d in destinos %}
-            <option value="{{ d.nombre }}">
-          {% endfor %}
-        </datalist>
-        <input type="submit" value="Search">
-      </form>
-      <div id="madeby">
-        <span>
-          Photo by <a href="https://unsplash.com/@benblenner" target="_blank">Mi pito tieso</a>
-        </span>
+  {% include 'includes/cabecera.html' %}
+  <div class="contenedor">
+      <div class="formulario shadow ">
+          <form action="confViaje/" method="POST">
+              {% csrf_token %}
+              <div class="row">
+                  <div class="col-sm">
+                      <label for="origen">Desde:</label>
+                      <input type="search" name="origen" placeholder="Origen" list="destinos">
+                      <label for="destino">a:</label>
+                      <input type="search" name="destino" placeholder="Destino" list="destinos">
+                  </div>
+                  <div class="col-sm">
+                      <label for="salida">Salida</label>
+                      <input type="date" name="salida">
+                      <label for="salida">Llegada</label>
+                      <input type="date" name="llegada">
+                  </div>
+                  <div class="col-sm">
+                      <label for="salida">Viajeros</label>
+                      <input type="number" min="1" name="viajeros">
+                      <button type="submit">Enviar</button>
+                  </div>
+              </div>
+              <datalist id="destinos">
+                  {% for d in destinos %}
+                  <option value="{{ d.nombre }}">
+                      {% endfor %}
+              </datalist>
+          </form>
       </div>
-    </div>
-
-  </div>
-
 </body>
 
 </html>

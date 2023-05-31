@@ -97,13 +97,12 @@ class Profile(models.Model):
 class Viaje(models.Model):
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
-    desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE)
-    desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE)
-    paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
+    desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE, blank=True)
+    desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE, blank=True)
+    paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE,blank=True)
     nHuespedes = models.FloatField()
-    salida  = models.CharField(max_length=200)
-    llegada  = models.CharField(max_length=200)
-
+    salida  = models.DateField()
+    llegada  = models.DateField()
     class Meta:
         verbose_name='viaje'
         verbose_name_plural="viajes"

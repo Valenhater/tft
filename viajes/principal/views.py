@@ -56,29 +56,12 @@ def vista3(request):
         'desplazamientosDestino': despDestino,
         'paquetes': paq,
     }
-
-    
-    # Filtrar alojamientos segun destino:
-    # Opción 1:
-    #alojamiento = Alojamiento.objects.filter(destino__nombre=request.POST['destino'])
-
-    # Opción 2:
-    #destinoId = Destino.objects.filter(nombre=request.POST['destino'])
-    #alojamiento = Alojamiento.objects.filter(destino=destinoId.id)
-
-    #Filtrar desplazamientos por destino y origen:
-    # desplazamientosIda = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'], destino__nombre=request.POST['destino'])
-    # desplazamientosVuelta = Desplazamiento.objects.filter(origen__nombre=request.POST['destino'], destino__nombre=request.POST['origen']) 
-
-    # print (alojamiento, desplazamientosIda, desplazamientosVuelta)
-
     plantilla = loader.get_template('viaje_vista2.html')
     return HttpResponse(plantilla.render(context, request))
 
-    
 def home(request):
     # Lógica de la vista home
-    return render(request, 'home.html')
+    return render(request, 'viaje_vista2.html')
 
 def registrar(request):
     if request.method == 'POST':
@@ -86,7 +69,7 @@ def registrar(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect(reverse('home'))  # Utiliza reverse para generar la URL de la vista 'home'
+            return redirect('../nuevologin')  # Utiliza reverse para generar la URL de la vista 'home'
     else:
         form = RegisterForm()
     return render(request, 'registrar.html', {'form': form})
@@ -98,8 +81,8 @@ def nuevologin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse('home'))  # Utiliza reverse para generar la URL de la vista 'home'
+            return redirect('../nuevoViaje')  # Utiliza reverse para generar la URL de la vista 'home'
         else:
-            # Mostrar un mensaje de error de inicio de sesión inválido
-            pass
+            print(password,username,user)
+            return render(request, 'nuevologin.html')
     return render(request, 'nuevologin.html')
