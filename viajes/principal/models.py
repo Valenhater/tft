@@ -21,7 +21,7 @@ class Alojamiento(models.Model):
     descripcion = models.TextField()
     nhabitaciones = models.IntegerField()
     nbanos = models.IntegerField()
-    nhuespuedes = models.IntegerField()
+    nhuespedes = models.IntegerField()
     destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
     precio = models.FloatField()
 
@@ -99,7 +99,7 @@ class Viaje(models.Model):
     alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
     desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE, blank=True)
     desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE, blank=True)
-    paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE,blank=True)
+    paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE,blank=True, null=True)
     nHuespedes = models.FloatField()
     salida  = models.DateField()
     llegada  = models.DateField()

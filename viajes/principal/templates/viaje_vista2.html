@@ -19,8 +19,8 @@
         $('input[name="alojamiento"]').click(function () {
             $('input[name="alojamiento"]').not(this).prop('checked', false);
         });
-        $('input[name="despOrigen"]').click(function () {
-            $('input[name="despOrigen"]').not(this).prop('checked', false);
+        $('input[name="despIda"]').click(function () {
+            $('input[name="despIda"]').not(this).prop('checked', false);
         });
         $('input[name="despVuelta"]').click(function () {
             $('input[name="despVuelta"]').not(this).prop('checked', false);
@@ -28,42 +28,12 @@
     });
 </script>
 
-<body>
+<body class="fondo">
     {% include 'includes/cabecera.html' %}
     <div class="contenedor">
-        <div class="formulario shadow ">
-            <form action="confViaje/" method="POST">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-sm">
-                        <label for="origen">Desde:</label>
-                        <input type="search" name="origen" placeholder="Origen" list="destinos">
-                        <label for="destino">a:</label>
-                        <input type="search" name="destino" placeholder="Destino" list="destinos">
-                    </div>
-                    <div class="col-sm">
-                        <label for="salida">Salida</label>
-                        <input type="date" name="salida">
-                        <label for="salida">Llegada</label>
-                        <input type="date" name="llegada">
-                    </div>
-                    <div class="col-sm">
-                        <label for="salida">Viajeros</label>
-                        <input type="number" min="1" name="viajeros">
-                        <button type="submit">Enviar</button>
-                    </div>
-                </div>
-                <datalist id="destinos">
-                    {% for d in destinos %}
-                    <option value="{{ d.nombre }}">
-                        {% endfor %}
-                </datalist>
-            </form>
-        </div>
-        <br>
-        <form action="" method="get">
+        <form action="{% url 'guardarViaje' %}" method="get">
             {% csrf_token %}
-            <div class="contenedor shadow ">
+            <div class="subContenedor shadow">
                 <div class="contenedor-wrapper">
                     <h1>Alojamientos</h1>
                 </div>
@@ -73,7 +43,7 @@
                         <div class="col-4 carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 {% for foto in a.foto_set.all %}
-                                <div class="carousel-item active">
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                     <img src="{{ foto.foto.url }}" alt="Foto">
                                 </div>
                                 {% endfor %}
@@ -89,8 +59,14 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                        <div class="col-4">
-                            <p>- {{ a.nombre }}</p>
+                        <div class="col-8">
+                            <h3>{{ a.nombre }}</h3>
+                            <div class="info-piso">
+                                <span class="icoHuespedes"></span> {{ a.nhuespedes }} Huéspedes
+                                <span class="icoCamas"></span> {{ a.nhabitaciones }} Habitaciones
+                                <span class="icoBanos"></span> {{ a.nbanos }} Baños
+                            </div>
+                            <p>- </p>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="alojamiento" value="{{ a.id }}">
@@ -100,38 +76,38 @@
                 </div>
             </div>
             <br>
-            <div class="contenedor shadow ">
+            <div class="subContenedor shadow">
                 <div class="contenedor-wrapper">
                     <h1>Desplazamiento Ida</h1>
                 </div>
                 <div class="contenedor-wrapper">
                     {% for d in desplazamientosOrigen %}
-                    <div class="contenedor2 shadow ">
+                    <div class="contenedor2 shadow">
                         <div class="col-4 photo">
                             <img src="/media/{{ d.foto }}" alt="">
                         </div>
-                        <div class="col-4">
+                        <div class="col-8">
                             <p>-{{ d.nombre }} a {{ d.destino }}</p>
                         </div>
                         <div class="col-4 cbox">
-                            <input type="checkbox" name="despOrigen" value="{{ d.id }}">
+                            <input type="checkbox" name="despIda" value="{{ d.id }}">
                         </div>
                     </div>
                     {% endfor %}
                 </div>
             </div>
             <br>
-            <div class="contenedor shadow ">
+            <div class="subContenedor shadow">
                 <div class="contenedor-wrapper">
                     <h1>Desplazamiento Vuelta</h1>
                 </div>
                 <div class="contenedor-wrapper">
                     {% for d in desplazamientosDestino %}
-                    <div class="contenedor2 shadow ">
+                    <div class="contenedor2 shadow">
                         <div class="col-4 photo">
                             <img src="/media/{{ d.foto }}" alt="">
                         </div>
-                        <div class="col-4">
+                        <div class="col-8">
                             <p>-{{ d.nombre }} a {{ d.destino }}</p>
                         </div>
                         <div class="col-4 cbox">
@@ -141,7 +117,14 @@
                     {% endfor %}
                 </div>
             </div>
-            <button type="submit" class="original-button">Enviar</button>
+            <input type="hidden" name="nHuespedes" value="{{ nHuespedes }}">
+            <input type="hidden" name="salida" value="{{ salida }}">
+            <input type="hidden" name="llegada" value="{{ llegada }}">
+            <div class="button-container">
+                <button type="submit" class="my-button">Enviar</button>
+            </div>
+            <!-- Otros campos ocultos -->
+
         </form>
     </div>
 </body>

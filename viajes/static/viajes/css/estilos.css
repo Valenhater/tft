@@ -43,12 +43,17 @@
   width: 6vw;
 }
 
-.contenedor {
+.contenedor, .subContenedor {
   width: 80%;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
   margin-top: 20px;
+
+}
+
+.subContenedor{
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .contenedor-wrapper {
@@ -63,7 +68,6 @@
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #FFF;
   display: flex
 }
 
@@ -109,8 +113,18 @@ a {
   color: #000;
 }
 
-.cbox input{
-  margin: auto;
+.cbox {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-13%, -10%);
+  display: flex;
+  align-items: center;
+}
+
+.cbox input[type="checkbox"] {
+  transform: scale(2); /* Ajusta el valor para cambiar el tamaño del checkbox */
+  margin-right: 10px; /* Espacio entre el checkbox y el texto, ajusta según tus necesidades */
 }
 
 .register{
@@ -123,12 +137,12 @@ a {
   background-size: cover;
   background-position: center;
   min-height: 100vh;
-  
+  background-attachment: fixed; /* Agrega esta línea */
 }
 
-.fondo::before{
+.fondo::before {
   content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -139,4 +153,60 @@ a {
   background-position: center;
   filter: blur(10px);
   z-index: -1;
+}
+.button-container {
+  text-align: right;
+  margin-top: 20px;
+  width: 90%;
+}
+
+.my-button {
+  display: inline-block;
+  padding: 14px 24px;
+  font-size: 20px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: rgb(0, 0, 0);
+  border: none;
+}
+
+.my-button:hover {
+  background-color: rgba(168, 168, 168, 0.9);
+}
+
+
+.info-piso {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+.info-piso .icoHuespedes{
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 0px;
+  width: 16px;
+  height: 16px;
+  background-size: cover;
+}
+
+.info-piso .icoCamas,
+.info-piso .icoBanos{
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 15px;
+  width: 16px;
+  height: 16px;
+  background-size: cover;
+}
+
+.info-piso .icoCamas {
+  background-image: url(../media/cama.png); /* Reemplaza con la URL de la imagen del icono de camas */
+}
+
+.info-piso .icoBanos {
+  background-image: url(../media/banera.png); /* Reemplaza con la URL de la imagen del icono de baños */
+}
+
+.info-piso .icoHuespedes {
+  background-image: url(../media/usuario.png); /* Reemplaza con la URL de la imagen del icono de huéspedes */
 }
