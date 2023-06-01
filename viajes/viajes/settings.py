@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-0wk6bv-bizp8_!^@8n!vs2)y@pnab+d@7e7ho+w7ztyp_-2)qm
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -56,7 +55,7 @@ ROOT_URLCONF = 'viajes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

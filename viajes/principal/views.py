@@ -6,10 +6,11 @@ from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from .forms import RegisterForm
 from django.db.models import Q
 
-
+@login_required
 def buscarViaje(request):
    dest = Destino.objects.all()
    context = {
@@ -34,7 +35,7 @@ def buscarViaje(request):
 #     }
 #     plantilla = loader.get_template('viaje_vista2.html')
 #     return HttpResponse(plantilla.render(context, request))
-
+@login_required
 def vista3(request):
     dest = Destino.objects.all()
     alo = Alojamiento.objects.filter(destino__nombre=request.POST['destino'], nhabitaciones__gte=request.POST['viajeros']).prefetch_related('foto_set')
@@ -65,6 +66,9 @@ def home(request):
     return render(request, 'viaje_vista2.html')
 
 def registrar(request):
+    if request.user.is_authenticated:
+        return redirect('nuevoViaje')
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -87,6 +91,10 @@ def nuevologin(request):
             print(password,username,user)
             return render(request, 'nuevologin.html')
     return render(request, 'nuevologin.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('registrar')
 
 @login_required
 def guardar_viaje(request):
@@ -123,3 +131,6 @@ def guardar_viaje(request):
         return redirect('nombre_de_la_vista')
 
     return render(request, 'formulario.html')
+
+def error_404_view(request, exception):
+    return render(request, '404.html', status=404)
