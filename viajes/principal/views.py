@@ -35,8 +35,9 @@ def buscarViaje(request):
 #     }
 #     plantilla = loader.get_template('viaje_vista2.html')
 #     return HttpResponse(plantilla.render(context, request))
+
 @login_required
-def vista3(request):
+def confViaje(request):
     dest = Destino.objects.all()
     alo = Alojamiento.objects.filter(destino__nombre=request.POST['destino'], nhabitaciones__gte=request.POST['viajeros']).prefetch_related('foto_set')
     despOrigen = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'] , destino__nombre=request.POST['destino'])
@@ -128,9 +129,18 @@ def guardar_viaje(request):
         viaje.save()
 
         # Redirigir a una página de éxito o a otra vista
-        return redirect('nombre_de_la_vista')
+        return redirect('../verViajes')
 
     return render(request, 'formulario.html')
 
 def error_404_view(request, exception):
     return render(request, '404.html', status=404)
+
+@login_required
+def verViajes(request):
+    # Obtén el usuario logueado
+    usuario = request.user
+    # Obtén los viajes del usuario
+    viajes = Viaje.objects.filter(usuario=usuario)
+    # Renderiza el template con los datos de los viajes
+    return render(request, 'verViajes.html', {'viajes': viajes})

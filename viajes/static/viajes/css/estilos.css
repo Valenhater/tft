@@ -210,3 +210,7 @@ a {
 .info-piso .icoHuespedes {
   background-image: url(../media/usuario.png); /* Reemplaza con la URL de la imagen del icono de huéspedes */
 }
+
+.navbar-brand{
+  font-size: larger !important;
+}

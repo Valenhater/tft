@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<!-- {% for p in paquetes %}<p>-</p><li>{{p.nombre}} - {{p.descripcion}} {{p.precio}}</li>{% endfor %} -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'viajes/css/estilos.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Viajes Valegio</title>
+</head>
+<script>
+    $(document).ready(function () {
+        $('input[name="alojamiento"]').click(function () {
+            $('input[name="alojamiento"]').not(this).prop('checked', false);
+        });
+        $('input[name="despIda"]').click(function () {
+            $('input[name="despIda"]').not(this).prop('checked', false);
+        });
+        $('input[name="despVuelta"]').click(function () {
+            $('input[name="despVuelta"]').not(this).prop('checked', false);
+        });
+    });
+</script>
+
+<body class="fondo">
+    {% include 'includes/cabecera.html' %}
+    <div class="contenedor">
+        <form action="{% url 'guardarViaje' %}" method="get">
+            {% csrf_token %}
+            <div class="subContenedor shadow">
+                <div class="contenedor-wrapper">
+                    <h1>Viajes</h1>
+                </div>
+                <div class="contenedor-wrapper">
+                    <table>
+                        <tr>
+                            <th>Alojamiento</th>
+                            <th>Fecha Salida</th>
+                            <th>Fecha Vuelta</th>
+                        </tr>
+                        {% for v in viajes %}
+                        <tr>
+                            <td>{{ v.alojamiento.nombre }}</td>
+                            <td>{{ v.salida }}</td>
+                            <td>{{ v.llegada }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+    </div>
+</body>
+
+</html>
