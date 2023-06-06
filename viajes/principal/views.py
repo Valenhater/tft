@@ -1,7 +1,7 @@
 #from django.shortcuts import get_list_or_404, render
 from .models import Destino, Alojamiento, Desplazamiento, Paquete, Viaje, Foto
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from .forms import RegisterForm
 from django.db.models import Q
+from datetime import datetime
 
 @login_required
 def buscarViaje(request):
@@ -39,15 +40,21 @@ def buscarViaje(request):
 @login_required
 def confViaje(request):
     dest = Destino.objects.all()
-    alo = Alojamiento.objects.filter(destino__nombre=request.POST['destino'], nhabitaciones__gte=request.POST['viajeros']).prefetch_related('foto_set')
-    despOrigen = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'] , destino__nombre=request.POST['destino'])
-    despDestino = Desplazamiento.objects.filter(origen__nombre=request.POST['destino'] , destino__nombre=request.POST['origen'])
+    alo = Alojamiento.objects.filter(destino__nombre=request.POST['destino'], nhuespedes__gte=request.POST['viajeros']).prefetch_related('foto_set')
+    despOrigen = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'], destino__nombre=request.POST['destino'])
+    despDestino = Desplazamiento.objects.filter(origen__nombre=request.POST['destino'], destino__nombre=request.POST['origen'])
     paq = Paquete.objects.filter(destino__nombre=request.POST['destino'])
     nHuespedes = request.POST['viajeros']
     salida = request.POST['salida']
     llegada = request.POST['llegada']
 
-    print(despOrigen, despDestino)
+    fecha_inicio = datetime.strptime(salida, '%Y-%m-%d').date()
+    fecha_fin = datetime.strptime(llegada, '%Y-%m-%d').date()
+    duracion_estancia = (fecha_fin - fecha_inicio).days
+    precio_total = []
+    for a in alo:
+        precio_total.append(duracion_estancia * a.precio)
+    
 
     context = {
         'destinos': dest,
@@ -58,7 +65,11 @@ def confViaje(request):
         'nHuespedes': nHuespedes,
         'salida': salida,
         'llegada': llegada,
+        'dias': duracion_estancia,
+        'precio_total': precio_total,
+
     }
+
     plantilla = loader.get_template('viaje_vista2.html')
     return HttpResponse(plantilla.render(context, request))
 
@@ -68,7 +79,7 @@ def home(request):
 
 def registrar(request):
     if request.user.is_authenticated:
-        return redirect('nuevoViaje')
+        return redirect('buscarViaje')
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -87,7 +98,7 @@ def nuevologin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('../nuevoViaje')  # Utiliza reverse para generar la URL de la vista 'home'
+            return redirect('../buscarViaje')  # Utiliza reverse para generar la URL de la vista 'home'
         else:
             print(password,username,user)
             return render(request, 'nuevologin.html')
@@ -122,9 +133,6 @@ def guardar_viaje(request):
             llegada=llegada
         )
 
-        # Establecer valores adicionales en el modelo
-        viaje.valor_adicional = "Valor adicional"
-
         # Guardar el viaje en la base de datos
         viaje.save()
 
@@ -144,3 +152,8 @@ def verViajes(request):
     viajes = Viaje.objects.filter(usuario=usuario)
     # Renderiza el template con los datos de los viajes
     return render(request, 'verViajes.html', {'viajes': viajes})
+
+@login_required
+def detalle_alojamiento(request, id):
+    alojamiento = get_object_or_404(Alojamiento, id=id)
+    return render(request, 'detalle_alojamiento.html', {'alojamiento': alojamiento})

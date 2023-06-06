@@ -13,5 +13,6 @@ urlpatterns = [
     path('nuevologin/', nuevologin, name='nuevologin'),
     path('guardarViaje/', views.guardar_viaje, name='guardarViaje'),
     path('logout/', views.logout_view, name='logout'),
+    path('alojamiento/<int:id>/', views.detalle_alojamiento, name='detalle_alojamiento'),
     # Agrega más rutas aquí
 ]

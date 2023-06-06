@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'viajes/css/estilos.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Detalle del Alojamiento</title>
+</head>
+
+<body class="fondo">
+    {% include 'includes/cabecera.html' %}
+    <div class="contenedor">
+        <div class="subContenedor">
+            <h1>Detalle del Alojamiento</h1>
+            <h2>{{ alojamiento.nombre }}</h2>
+            <p>Tipo: {{ alojamiento.tipo }}</p>
+            <p>Descripción: {{ alojamiento.descripcion }}</p>
+            <p>Número de habitaciones: {{ alojamiento.nhabitaciones }}</p>
+            <p>Número de baños: {{ alojamiento.nbanos }}</p>
+            <p>Número de huéspedes: {{ alojamiento.nhuespedes }}</p>
+            <p>Destino: {{ alojamiento.destino }}</p>
+            <p>Precio: {{ alojamiento.precio }} € / noche</p>
+            {% for foto in alojamiento.foto_set.all %}
+                <img src="{{ foto.foto.url }}" alt="Foto">
+            {% endfor %}
+        </div>
+    </div>
+    <a href="{% url 'verViajes' %}">Volver a la lista de alojamientos</a>
+</body>
+
+</html>
