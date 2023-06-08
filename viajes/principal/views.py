@@ -9,6 +9,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from .forms import RegisterForm
 from django.db.models import Q
+import stripe
+from django.conf import settings
 from datetime import datetime
 
 @login_required
@@ -137,7 +139,7 @@ def guardar_viaje(request):
         viaje.save()
 
         # Redirigir a una página de éxito o a otra vista
-        return redirect('../verViajes')
+        return redirect('../payment')
 
     return render(request, 'formulario.html')
 
@@ -157,3 +159,34 @@ def verViajes(request):
 def detalle_alojamiento(request, id):
     alojamiento = get_object_or_404(Alojamiento, id=id)
     return render(request, 'detalle_alojamiento.html', {'alojamiento': alojamiento})
+
+stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
+
+@login_required
+def payment_view(request):
+    if request.method == 'POST':
+        # Obtener el token de pago y otros datos del formulario
+        token = request.POST.get('stripeToken')
+        amount = 1000  # Monto del pago en centavos
+
+        try:
+            # Configurar la clave secreta de Stripe
+            stripe.api_key = 'sk_test_51NGluaCYvehD92m44YT8AODvOEJT1zc9Hskz2MzwSngFwvrVN1EkFyLnAwslizxZ6ybXzGsQGAIEv1p8k74FAvGQ00xfhP4jdB'
+
+            # Crear el cargo utilizando la API de Stripe
+            charge = stripe.Charge.create(
+                amount=amount,
+                currency='usd',
+                source=token,
+                description='Pago de prueba'
+            )
+            # Realizar cualquier lógica adicional después de un pago exitoso
+            # ...
+
+            return render(request, 'payment_success.html')
+        except stripe.error.CardError as e:
+            # Manejar errores de tarjeta de crédito
+            error_message = e.error.message
+            return render(request, 'payment.html', {'error': error_message})
+
+    return render(request, 'payment.html')

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pago del Viaje</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Pago del Viaje</h1>
+
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+
+    <form action="{% url 'payment' %}" method="post" id="payment-form">
+        {% csrf_token %}
+        <div id="card-element">
+            <!-- Elemento de tarjeta de crédito de Stripe -->
+        </div>
+        <div id="card-errors" role="alert"></div>
+        <button type="submit">Pagar</button>
+    </form>
+
+    <script>
+        var stripe = Stripe('pk_test_51NGluaCYvehD92m4gllecyjawrBxkBpzYVSQTJ1sx3RgRVyOgEFJI22x8l9F5W1IFzvNIjRWQRBvzzVQsGuZ7uCh00Rg1Uq8Wu');
+        var elements = stripe.elements();
+        var cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        var errorElement = document.getElementById('card-errors');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(cardElement).then(function(result) {
+                if (result.error) {
+                    errorElement.textContent = result.error.message;
+                } else {
+                    var tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = 'stripeToken';
+                    tokenInput.value = result.token.id;
+                    form.appendChild(tokenInput);
+                    form.submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

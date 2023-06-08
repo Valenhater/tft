@@ -75,7 +75,8 @@
                             <a href="{% url 'detalle_alojamiento' id=a.id %}">Ver detalles</a>
                         </div>
                         <div class="col-4 cbox">
-                            <input type="checkbox" name="alojamiento" value="{{ a.id }}">
+                            <input type="checkbox" name="alojamiento" value="{{ a.id }}" data-precio="{{ a.precio }}"
+                                class="producto-checkbox">
                         </div>
                     </div> <br>
                     {% endfor %}
@@ -93,10 +94,11 @@
                             <img src="/media/{{ d.foto }}" alt="">
                         </div>
                         <div class="col-8">
-                            <p>-{{ d.nombre }} a {{ d.destino }}</p>
+                            <h3>{{ d.nombre }} - {{ d.precio }}€</h3>
                         </div>
                         <div class="col-4 cbox">
-                            <input type="checkbox" name="despIda" value="{{ d.id }}">
+                            <input type="checkbox" name="despIda" value="{{ d.id }}" data-precio="{{ d.precio }}"
+                                class="producto-checkbox">
                         </div>
                     </div>
                     {% endfor %}
@@ -114,10 +116,32 @@
                             <img src="/media/{{ d.foto }}" alt="">
                         </div>
                         <div class="col-8">
-                            <p>-{{ d.nombre }} a {{ d.destino }}</p>
+                            <h3>{{ d.nombre }} - {{ d.precio }}€</h3>
                         </div>
                         <div class="col-4 cbox">
-                            <input type="checkbox" name="despVuelta" value="{{ d.id }}">
+                            <input type="checkbox" name="despVuelta" value="{{ d.id }}" data-precio="{{ d.precio }}"
+                                class="producto-checkbox">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="subContenedor shadow">
+                <div class="contenedor-wrapper">
+                    <h1>Paquetes</h1>
+                </div>
+                <div class="contenedor-wrapper">
+                    {% for p in paquetes %}
+                    <div class="contenedor2 shadow">
+                        <div class="col-4 photo">
+                            <img src="/media/{{ p.foto }}" alt="">
+                        </div>
+                        <div class="col-8">
+                            <h3>{{ p.nombre }} - {{ p.precio }}€</h3>
+                        </div>
+                        <div class="col-4 cbox">
+                            <input type="checkbox" name="despVuelta" value="{{ p.id }}" data-precio="{{ p.precio }}"
+                                class="producto-checkbox">
                         </div>
                     </div>
                     {% endfor %}
@@ -126,13 +150,31 @@
             <input type="hidden" name="nHuespedes" value="{{ nHuespedes }}">
             <input type="hidden" name="salida" value="{{ salida }}">
             <input type="hidden" name="llegada" value="{{ llegada }}">
-            <div class="button-container">
-                <button type="submit" class="my-button">Enviar</button>
+            <div class="subContenedor shadow">
+                <div class="contenedor2 shadow">
+                    <div id="total-container">Total: 0€</div>
+                    <div class="button-container">
+                        <button type="submit" class="my-button">Enviar</button>
+                    </div>
+                </div>
             </div>
-            <!-- Otros campos ocultos -->
-
         </form>
     </div>
 </body>
+<script>
+    $(document).ready(function () {
+        $('.producto-checkbox').change(function () {
+            var total = 0;
+            $('.producto-checkbox:checked').each(function () {
+                var precio = parseFloat($(this).data('precio'));
+                if (!isNaN(precio)) {
+                    total += precio;
+                }
+            });
+
+            $('#total-container').text('Total: ' + total + '€');
+        });
+    });
+</script>
 
 </html>

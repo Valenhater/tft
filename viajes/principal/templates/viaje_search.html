@@ -2,19 +2,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <!-- {% for p in paquetes %}<p>-</p><li>{{p.nombre}} - {{p.descripcion}} {{p.precio}}</li>{% endfor %} -->
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'viajes/css/estilos.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Viajes Valegio</title>
 </head>
-
 <body class="fondo">
     {% include 'includes/cabecera.html' %}
     <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh">
@@ -24,9 +22,9 @@
                 <div class="row">
                     <div class="col-sm">
                         <label for="origen">Desde:</label>
-                        <input type="search" name="origen" placeholder="Origen" list="destinos">
+                        <input type="search" name="origen" placeholder="Origen" list="destinos" id="myInput">
                         <label for="destino">a:</label>
-                        <input type="search" name="destino" placeholder="Destino" list="destinos">
+                        <input type="search" name="destino" placeholder="Destino" list="destinos" id="myInput">
                     </div>
                     <div class="col-sm">
                         <label for="salida">Salida</label>
@@ -42,12 +40,11 @@
                 </div>
                 <datalist id="destinos">
                     {% for d in destinos %}
-                    <option value="{{ d.nombre }}">
-                        {% endfor %}
+                        <option value="{{ d.nombre }}">
+                    {% endfor %}
                 </datalist>
             </form>
         </div>
     </div>
 </body>
-
 </html>

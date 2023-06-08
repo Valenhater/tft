@@ -136,3 +136,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 
 AUTH_USER_MODEL = 'principal.CustomUser'
+
+#configuracion Stripe
+STRIPE_TEST_PUBLISHABLE_KEY = 'pk_test_51NGluaCYvehD92m4gllecyjawrBxkBpzYVSQTJ1sx3RgRVyOgEFJI22x8l9F5W1IFzvNIjRWQRBvzzVQsGuZ7uCh00Rg1Uq8Wu'
+STRIPE_TEST_SECRET_KEY = 'sk_test_51NGluaCYvehD92m44YT8AODvOEJT1zc9Hskz2MzwSngFwvrVN1EkFyLnAwslizxZ6ybXzGsQGAIEv1p8k74FAvGQ00xfhP4jdB'
