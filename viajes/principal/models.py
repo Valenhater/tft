@@ -103,6 +103,7 @@ class Viaje(models.Model):
     nHuespedes = models.FloatField()
     salida  = models.DateField()
     llegada  = models.DateField()
+    pagado = models.BooleanField()
     class Meta:
         verbose_name='viaje'
         verbose_name_plural="viajes"
