@@ -103,6 +103,7 @@ class Viaje(models.Model):
     nHuespedes = models.FloatField()
     salida  = models.DateField()
     llegada  = models.DateField()
+    precioTotal = models.FloatField()
     pagado = models.BooleanField()
     class Meta:
         verbose_name='viaje'
@@ -110,3 +111,4 @@ class Viaje(models.Model):
 
     def __str__(self):
         return self.nombre
+    

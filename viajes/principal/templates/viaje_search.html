@@ -28,9 +28,9 @@
                     </div>
                     <div class="col-sm">
                         <label for="salida">Salida</label>
-                        <input type="date" name="salida">
-                        <label for="salida">Llegada</label>
-                        <input type="date" name="llegada">
+                        <input type="date" name="salida" id="salida" min="{{ today }}">
+                        <label for="llegada">Llegada</label>
+                        <input type="date" name="llegada" id="llegada" min="{{ today }}">
                     </div>
                     <div class="col-sm">
                         <label for="salida">Viajeros</label>
@@ -47,4 +47,18 @@
         </div>
     </div>
 </body>
+<script>
+    // Obtener la fecha actual en formato YYYY-MM-DD
+    var today = new Date().toISOString().split("T")[0];
+    
+    // Establecer la fecha mínima de salida y llegada
+    document.getElementById("salida").setAttribute("min", today);
+    document.getElementById("llegada").setAttribute("min", today);
+    
+    // Actualizar la fecha mínima de llegada cuando se selecciona una fecha de salida
+    document.getElementById("salida").addEventListener("change", function() {
+        var selectedDate = this.value;
+        document.getElementById("llegada").setAttribute("min", selectedDate);
+    });
+</script>
 </html>

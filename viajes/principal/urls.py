@@ -15,5 +15,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('alojamiento/<int:id>/', views.detalle_alojamiento, name='detalle_alojamiento'),
     path('payment/', payment_view, name='payment'),
+    path('marcarViajeComoPagado/<int:viaje_id>/', views.marcar_viaje_como_pagado, name='marcarViajeComoPagado'),
     # Agrega más rutas aquí
 ]

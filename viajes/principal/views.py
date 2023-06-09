@@ -2,8 +2,10 @@
 from .models import Destino, Alojamiento, Desplazamiento, Paquete, Viaje, Foto
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from decimal import Decimal
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.sessions.backends.db import SessionStore
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -12,6 +14,7 @@ from django.db.models import Q
 import stripe
 from django.conf import settings
 from datetime import datetime
+from stripe.error import CardError
 
 @login_required
 def buscarViaje(request):
@@ -22,22 +25,6 @@ def buscarViaje(request):
    plantilla = loader.get_template('viaje_search.html')
    return HttpResponse(plantilla.render(context, request))
 
-# def vista2(request):
-#     dest = Destino.objects.all()
-#     alo = Alojamiento.objects.all()
-#     desp = Desplazamiento.objects.all()
-#     paq = Paquete.objects.all()
-#     via = Viaje.objects.all()
-
-#     context = {
-#         'destinos': dest,
-#         'alojamientos': alo,
-#         'desplazamientos': desp,
-#         'paquetes': paq,
-#         'viajes': via,
-#     }
-#     plantilla = loader.get_template('viaje_vista2.html')
-#     return HttpResponse(plantilla.render(context, request))
 
 @login_required
 def confViaje(request):
@@ -120,6 +107,8 @@ def guardar_viaje(request):
         n_huespedes = request.GET.get('nHuespedes')
         salida = request.GET.get('salida')
         llegada = request.GET.get('llegada')
+        pagado = request.GET.get('pagado')
+        precioTotal = request.GET.get('precioTotal')
 
         # Obtener el usuario logueado
         usuario = request.user
@@ -132,14 +121,21 @@ def guardar_viaje(request):
             desplazamientoVuelta_id=desp_vuelta_id,
             nHuespedes=n_huespedes,
             salida=salida,
-            llegada=llegada
+            llegada=llegada,
+            pagado=pagado,
+            precioTotal=precioTotal,
         )
 
         # Guardar el viaje en la base de datos
         viaje.save()
 
-        # Redirigir a una página de éxito o a otra vista
-        return redirect('../payment')
+        # Guardar el ID del viaje en la sesión
+        session = SessionStore(request.session.session_key)
+        session['viaje_id'] = viaje.id
+        session.save()
+
+        # Redirigir a la vista de pago
+        return redirect('payment')
 
     return render(request, 'formulario.html')
 
@@ -151,7 +147,7 @@ def verViajes(request):
     # Obtén el usuario logueado
     usuario = request.user
     # Obtén los viajes del usuario
-    viajes = Viaje.objects.filter(usuario=usuario)
+    viajes = Viaje.objects.filter(usuario=usuario, pagado=1)
     # Renderiza el template con los datos de los viajes
     return render(request, 'verViajes.html', {'viajes': viajes})
 
@@ -164,29 +160,63 @@ stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 @login_required
 def payment_view(request):
+    # Obtener el ID del viaje de la sesión
+    session = SessionStore(request.session.session_key)
+    viaje_id = session.get('viaje_id')
+
+    # Verificar si el ID del viaje está presente en la sesión
+    if viaje_id is None:
+        # El ID del viaje no está en la sesión, manejar el error o redirigir a una página apropiada
+        return redirect('error')
+
+    try:
+        # Obtener el objeto Viaje por su ID
+        viaje = Viaje.objects.get(id=viaje_id)
+
+        # Realizar cualquier lógica adicional necesaria antes del pago
+
+        # Renderizar el template de pago y pasar el objeto Viaje como variable de contexto
+        return render(request, 'payment.html', {'viaje': viaje})
+
+    except Viaje.DoesNotExist:
+        # El objeto Viaje no existe, manejar el error o redirigir a una página apropiada
+        return redirect('error')
+
+@login_required
+def marcar_viaje_como_pagado(request, viaje_id):
     if request.method == 'POST':
-        # Obtener el token de pago y otros datos del formulario
-        token = request.POST.get('stripeToken')
-        amount = 1000  # Monto del pago en centavos
-
         try:
-            # Configurar la clave secreta de Stripe
-            stripe.api_key = 'sk_test_51NGluaCYvehD92m44YT8AODvOEJT1zc9Hskz2MzwSngFwvrVN1EkFyLnAwslizxZ6ybXzGsQGAIEv1p8k74FAvGQ00xfhP4jdB'
+            # Obtén el objeto Viaje por su ID
+            viaje = Viaje.objects.get(id=viaje_id)
 
-            # Crear el cargo utilizando la API de Stripe
+            # Actualiza el campo 'pagado' a True
+            viaje.pagado = True
+
+            # Procesar el pago utilizando la biblioteca de Stripe
+            stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
             charge = stripe.Charge.create(
-                amount=amount,
-                currency='usd',
-                source=token,
-                description='Pago de prueba'
+                amount=int(viaje.precioTotal * 100),  # Convertir a entero y montar en centavos
+                currency='usd',  # Moneda (actualiza según tu configuración)
+                source=request.POST['stripeToken'],  # Token de tarjeta enviado desde el formulario
+                description='Pago del viaje: {}'.format(viaje.id)
             )
-            # Realizar cualquier lógica adicional después de un pago exitoso
-            # ...
 
-            return render(request, 'payment_success.html')
-        except stripe.error.CardError as e:
-            # Manejar errores de tarjeta de crédito
-            error_message = e.error.message
-            return render(request, 'payment.html', {'error': error_message})
+            # Guarda los cambios en la base de datos
+            viaje.save()
 
-    return render(request, 'payment.html')
+            # Redirige a la vista de verViajes
+            return redirect('verViajes')
+
+        except Viaje.DoesNotExist:
+            # El objeto Viaje no existe, maneja el error o redirige a una página apropiada
+            return redirect('error')
+
+        except CardError as e:
+            # Captura la excepción de CardError y pasa el mensaje de error al template
+            error_message = e.user_message
+            return render(request, 'payment.html', {'viaje': viaje, 'error': error_message})
+
+    return redirect('error')
+
+
+
