@@ -69,10 +69,12 @@
                             </div>
                             <br>
                             <p>{{ a.descripcion }}</p>
-                            {% with index=forloop.counter0|add:"-1" %}
-                            <p>Precio total: {{ precio_total|index:index }}€</p>
-                            {% endwith %}
-                            <a href="{% url 'detalle_alojamiento' id=a.id %}">Ver detalles</a>
+                            <div class="detalles">
+                                {% with index=forloop.counter0|add:"-1" %}
+                                <p>Precio total: {{ precio_total|index:index }}€</p>
+                                <a href="{% url 'detalle_alojamiento' id=a.id %}">Ver detalles</a>
+                                {% endwith %}
+                            </div>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="alojamiento" value="{{ a.id }}" data-precio="{{ a.precio }}"
@@ -116,7 +118,8 @@
                             <img src="/media/{{ d.foto }}" alt="">
                         </div>
                         <div class="col-8">
-                            <h3>{{ d.nombre }} - {{ d.precio }}€</h3>
+                            <h3>{{ d.nombre }} - {{ d.precio }}€ / persona</h3>
+                            <p>- Precio Total para {{ nHuespedes }} huéspedes: €</p>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="despVuelta" value="{{ d.id }}" data-precio="{{ d.precio }}"
@@ -147,7 +150,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <input type="hidden" name="nHuespedes" value="{{ nHuespedes }}">
+            <input type="hidden" name="nHuespedes" value="{{ nHuespedes }}" id="nHuespedes">
             <input type="hidden" name="salida" value="{{ salida }}">
             <input type="hidden" name="llegada" value="{{ llegada }}">
             <input type="hidden" name="precioTotal" id="precioTotal">
@@ -166,7 +169,14 @@
 <script>
     $(document).ready(function () {
         $('.producto-checkbox').change(function () {
-            var alojamientoPrecio = parseFloat($('input[name="alojamiento"]:checked').data('precio'));
+            var alojamientoPrecio = 0;
+            var alojamientoSeleccionado = $('input[name="alojamiento"]:checked');
+
+            if (alojamientoSeleccionado.length > 0) {
+                alojamientoPrecio = parseFloat(alojamientoSeleccionado.data('precio'));
+            }
+
+            var nHuespedes = parseInt($('#nHuespedes').val()); // Obtener el número de huéspedes seleccionado
             var dias = 0;
 
             // Calcular el número de días entre salida y llegada
@@ -195,8 +205,11 @@
                 }
             });
 
-            // Calcular el precio total sumando el alojamiento, los desplazamientos y los paquetes
-            var total = alojamientoTotal + desplazamientoTotal + paqueteTotal;
+            // Multiplicar el precio de los elementos no alojamiento por el número de huéspedes
+            var elementosTotal = (desplazamientoTotal + paqueteTotal) * nHuespedes;
+
+            // Calcular el precio total sumando el alojamiento y los elementos no alojamiento multiplicados por el número de huéspedes
+            var total = alojamientoTotal + elementosTotal;
 
             // Actualizar el contenido del contenedor de total
             $('#total-container').text('Total: ' + total.toFixed(2) + '€');
@@ -206,7 +219,5 @@
         });
     });
 </script>
-
-
 
 </html>

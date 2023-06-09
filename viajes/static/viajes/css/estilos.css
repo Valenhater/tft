@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap');
+*{
+  font-family: 'Nunito', sans-serif;
+}
+
+
 .formulario {
   width: 60%;
   margin: 0 auto;
@@ -43,7 +49,8 @@
   width: 6vw;
 }
 
-.contenedor, .subContenedor {
+.contenedor,
+.subContenedor {
   width: 80%;
   margin: 0 auto;
   padding: 20px;
@@ -52,8 +59,12 @@
 
 }
 
-.subContenedor{
-  background-color: rgba(255, 255, 255, 0.9);
+.carousel-inner{
+  border-radius: 7px;
+}
+
+.subContenedor {
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .contenedor-wrapper {
@@ -68,7 +79,9 @@
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
-  display: flex
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: translateX(-0.6rem);
 }
 
 .contenedor2 .photo {
@@ -76,6 +89,7 @@
   padding: 5px;
   display: flex;
   align-items: center;
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .carousel-item img {
@@ -97,9 +111,9 @@
   object-fit: cover;
 }
 
-.photo img{
-  width: 18vw;
-  height: 10vw;
+.photo img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -117,27 +131,30 @@ a {
   position: absolute;
   top: 50%;
   right: 0;
-  transform: translate(-13%, -10%);
+  transform: translate(-13%, 0%);
   display: flex;
   align-items: center;
 }
 
 .cbox input[type="checkbox"] {
-  transform: scale(2); /* Ajusta el valor para cambiar el tamaño del checkbox */
-  margin-right: 10px; /* Espacio entre el checkbox y el texto, ajusta según tus necesidades */
+  transform: scale(2);
+  /* Ajusta el valor para cambiar el tamaño del checkbox */
+  margin-right: 10px;
+  /* Espacio entre el checkbox y el texto, ajusta según tus necesidades */
 }
 
-.register{
+.register {
   margin: auto;
 }
 
 .fondo {
-  background-image: url(https://wallpapershome.com/images/wallpapers/lake-louise-3840x2160-4k-hd-wallpaper-sanada-travel-mountain-12772.jpg);
+  /*background-image: url(../media/cama.jpg);*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   min-height: 100vh;
-  background-attachment: fixed; /* Agrega esta línea */
+  background-attachment: fixed;
+  /* Agrega esta línea */
 }
 
 .fondo::before {
@@ -147,13 +164,15 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url(https://wallpapershome.com/images/wallpapers/lake-louise-3840x2160-4k-hd-wallpaper-sanada-travel-mountain-12772.jpg);
+  /*background-image: url(../media/cama.jpg);*/
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  filter: blur(10px);
   z-index: -1;
 }
+
 .button-container {
   text-align: right;
   margin-top: 20px;
@@ -180,7 +199,8 @@ a {
   align-items: center;
   font-size: 16px;
 }
-.info-piso .icoHuespedes{
+
+.info-piso .icoHuespedes {
   display: inline-block;
   margin-right: 5px;
   margin-left: 0px;
@@ -190,7 +210,7 @@ a {
 }
 
 .info-piso .icoCamas,
-.info-piso .icoBanos{
+.info-piso .icoBanos {
   display: inline-block;
   margin-right: 5px;
   margin-left: 15px;
@@ -200,17 +220,27 @@ a {
 }
 
 .info-piso .icoCamas {
-  background-image: url(../media/cama.png); /* Reemplaza con la URL de la imagen del icono de camas */
+  background-image: url(../media/cama.png);
+  /* Reemplaza con la URL de la imagen del icono de camas */
 }
 
 .info-piso .icoBanos {
-  background-image: url(../media/banera.png); /* Reemplaza con la URL de la imagen del icono de baños */
+  background-image: url(../media/banera.png);
+  /* Reemplaza con la URL de la imagen del icono de baños */
 }
 
 .info-piso .icoHuespedes {
-  background-image: url(../media/usuario.png); /* Reemplaza con la URL de la imagen del icono de huéspedes */
+  background-image: url(../media/usuario.png);
+  /* Reemplaza con la URL de la imagen del icono de huéspedes */
 }
 
-.navbar-brand{
+.navbar-brand {
   font-size: larger !important;
+}
+
+.detalles {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 10px;
 }

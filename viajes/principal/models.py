@@ -97,8 +97,8 @@ class Profile(models.Model):
 class Viaje(models.Model):
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     alojamiento = models.ForeignKey(Alojamiento, on_delete=models.CASCADE)
-    desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE, blank=True)
-    desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE, blank=True)
+    desplazamientoIda = models.ForeignKey(Desplazamiento,related_name='viaje_ida' ,on_delete=models.CASCADE, blank=True, null=True)
+    desplazamientoVuelta = models.ForeignKey(Desplazamiento,related_name='viaje_vuelta', on_delete=models.CASCADE, blank=True, null=True)
     paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE,blank=True, null=True)
     nHuespedes = models.FloatField()
     salida  = models.DateField()

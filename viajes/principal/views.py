@@ -33,7 +33,7 @@ def confViaje(request):
     despOrigen = Desplazamiento.objects.filter(origen__nombre=request.POST['origen'], destino__nombre=request.POST['destino'])
     despDestino = Desplazamiento.objects.filter(origen__nombre=request.POST['destino'], destino__nombre=request.POST['origen'])
     paq = Paquete.objects.filter(destino__nombre=request.POST['destino'])
-    nHuespedes = request.POST['viajeros']
+    nHuespedes = int(request.POST['viajeros'])
     salida = request.POST['salida']
     llegada = request.POST['llegada']
 
