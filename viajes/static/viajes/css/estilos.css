@@ -10,7 +10,7 @@
   padding: 20px;
   border-radius: 10px;
   margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .formulario h2 {
@@ -84,6 +84,29 @@
   transform: translateX(-0.6rem);
 }
 
+.contenedor3,.contenedor33 {
+  background-color: rgba(255, 255, 255, 0.8);
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  
+}
+.contenedor33{
+  display: flex;
+}
+
+.text-contenedor {
+  flex: 1;
+}
+
+.imagen-contenedor img{
+  margin-right: 5px;
+  padding-left: 25px;
+  width: 15vw;
+  border-radius: 5px;
+}
+
+
 .contenedor2 .photo {
   flex: 0 0 40%;
   padding: 5px;
@@ -92,24 +115,26 @@
   background-color: rgba(255, 255, 255, 1);
 }
 
-.carousel-item img {
+.carousel-1 img {
   width: 23vw;
   height: 12vw;
   object-fit: cover;
 }
 
-
-.carousel-item {
+.carousel-1 {
   width: 23vw;
   height: 12vw;
   object-fit: cover;
 }
 
-.carousel-item {
-  width: 23vw;
-  height: 12vw;
-  object-fit: cover;
-}
+.my-carousel {
+        max-width: 600px; /* Ajusta el tamaño máximo deseado */
+        margin: 0 auto; /* Centra horizontalmente el carousel */
+    }
+    .my-carousel .carousel-inner img {
+        width: 100%;
+        height: auto;
+    }
 
 .photo img {
   width: 100%;
@@ -145,6 +170,19 @@ a {
 
 .register {
   margin: auto;
+
+}
+
+.register tr td{
+  width: min-content;
+}
+
+.register tr .iz{
+  text-align: start;
+}
+
+.register input{
+  width: 10vw;
 }
 
 .fondo {
@@ -251,4 +289,18 @@ a {
 .tablaViajes th,td{
   width: 20%;
   text-align: center;
+}
+
+.contLogin{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transform: translateY(-10vh);
+  font-size: 20px;
+}
+
+.btn{
+  width: 8vw;
+  font-size: 20px;
 }

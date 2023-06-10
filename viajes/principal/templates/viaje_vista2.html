@@ -32,7 +32,7 @@
 <body class="fondo">
     {% include 'includes/cabecera.html' %}
     <div class="contenedor">
-        <form action="{% url 'guardarViaje' %}" method="GET">
+        <form action="{% url 'guardarViaje' %}" method="GET" onsubmit="return validarFormulario()">
             {% csrf_token %}
             <div class="subContenedor shadow">
                 <div class="contenedor-wrapper">
@@ -44,7 +44,7 @@
                         <div id="carouselExampleControls{{ a.id }}" class="col-4 carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 {% for foto in a.foto_set.all %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="carousel-item carousel-1 {% if forloop.first %}active{% endif %}">
                                     <img src="{{ foto.foto.url }}" alt="Foto">
                                 </div>
                                 {% endfor %}
@@ -78,7 +78,7 @@
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="alojamiento" value="{{ a.id }}" data-precio="{{ a.precio }}"
-                                class="producto-checkbox">
+                                class="producto-checkbox" id="alojamiento">
                         </div>
                     </div> <br>
                     {% endfor %}
@@ -237,6 +237,15 @@
     if (miParrafo.textContent.length > maxCaracteres) {
         var textoRecortado = miParrafo.textContent.slice(0, maxCaracteres) + "...";
         miParrafo.textContent = textoRecortado;
+    }
+
+    function validarFormulario() {
+        var alojamientoSeleccionado = $('input[name="alojamiento"]:checked');
+
+        if (alojamientoSeleccionado.length === 0) {
+            alert("Por favor, selecciona un alojamiento.");
+            return false;
+        }
     }
 </script>
 
