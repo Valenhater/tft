@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'viajes/css/estilos.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Detalle del Alojamiento</title>
+</head>
+
+<body class="fondo">
+    {% include 'includes/cabecera.html' %}
+    <div class="contenedor">
+        <div class="subContenedor">
+            <h1>Detalle del Alojamiento</h1>
+            <h2>{{ viaje.alojamiento.nombre }}</h2>
+            <p>Tipo: {{ viaje.alojamiento.tipo }}</p>
+            <p>Descripción: {{ viaje.alojamiento.descripcion }}</p>
+            <p>Número de habitaciones: {{ viaje.alojamiento.nhabitaciones }}</p>
+            <p>Número de baños: {{ viaje.alojamiento.nbanos }}</p>
+            <p>Número de huéspedes: {{ viaje.alojamiento.nhuespedes }}</p>
+            <p>Destino: {{ viaje.alojamiento.destino }}</p>
+            <p>Precio: {{ viaje.alojamiento.precio }} € / noche</p>
+            {% for foto in viaje.alojamiento.foto_set.all %}
+            <img src="{{ foto.foto.url }}" alt="Foto">
+            {% endfor %}
+        </div>
+    </div>
+    {% if viaje.desplazamientoIda %}
+    <div class="contenedor">
+        <div class="subContenedor">
+            <h1>Ida</h1>
+            <h2>{{ viaje.desplazamientoIda.nombre }}</h2>
+            <h3>{{ viaje.salida}}</h3>
+            <p>origen: {{ viaje.desplazamientoIda.origen}}</p>
+            <p>detino: {{ viaje.desplazamientoIda.destino}}</p>
+            <p>Precio por persona: {{ viaje.desplazamientoIda.precio}}</p>
+        </div>
+    </div>
+    {% endif %}
+    {% if viaje.desplazamientoVuelta %}
+    <div class="contenedor">
+        <div class="subContenedor">
+            <h1>Vuelta</h1>
+            <h2>{{ viaje.desplazamientoVuelta.nombre }}</h2>
+            <h3>{{ viaje.llegada}}</h3>
+            <p>origen: {{ viaje.desplazamientoVuelta.origen}}</p>
+            <p>detino: {{ viaje.desplazamientoVuelta.destino}}</p>
+            <p>Precio por persona: {{ viaje.desplazamientoVuelta.precio}}</p>
+        </div>
+    </div>
+    {% endif %}
+    {% if viaje.paquete %}
+    <div class="contenedor">
+        <div class="subContenedor">
+            <h1>Paquete</h1>
+            <h2>{{ viaje.paquete.nombre }}</h2>
+            <p>descripcion: </p>
+            <p>{{ viaje.paquete.descripcion }}</p>
+            <img src="{{viaje.paquete.foto.url}}" alt="">
+        </div>
+    </div>
+    {% endif %}
+    <a href="{% url 'verViajes' %}">Volver a la lista de viajes</a>
+</body>
+
+</html>

@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-<!-- {% for p in paquetes %}<p>-</p><li>{{p.nombre}} - {{p.descripcion}} {{p.precio}}</li>{% endfor %} -->
 
 <head>
     <meta charset="UTF-8">
@@ -14,46 +13,43 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Viajes Valegio</title>
 </head>
-<script>
-    $(document).ready(function () {
-        $('input[name="alojamiento"]').click(function () {
-            $('input[name="alojamiento"]').not(this).prop('checked', false);
-        });
-        $('input[name="despIda"]').click(function () {
-            $('input[name="despIda"]').not(this).prop('checked', false);
-        });
-        $('input[name="despVuelta"]').click(function () {
-            $('input[name="despVuelta"]').not(this).prop('checked', false);
-        });
-    });
-</script>
 
 <body class="fondo">
     {% include 'includes/cabecera.html' %}
     <div class="contenedor">
-        <form action="{% url 'guardarViaje' %}" method="get">
-            {% csrf_token %}
-            <div class="subContenedor shadow">
-                <div class="contenedor-wrapper">
-                    <h1>Viajes</h1>
-                </div>
-                <div class="contenedor-wrapper">
-                    <table>
+        <div class="subContenedor shadow">
+            <div class="contenedor-wrapper">
+                <h1>Viajes</h1>
+            </div>
+            <div class="contenedor-wrapper">
+                {% for v in viajes %}
+                <div class="contenedor2">
+                    <table class="tablaViajes">
                         <tr>
                             <th>Alojamiento</th>
-                            <th>Fecha Salida</th>
-                            <th>Fecha Vuelta</th>
+                            <th>Ida</th>
+                            <th>Vuelta</th>
+                            <th>Paquete</th>
+                            <th>Precio Total</th>
+                            <th></th>
                         </tr>
-                        {% for v in viajes %}
                         <tr>
                             <td>{{ v.alojamiento.nombre }}</td>
-                            <td>{{ v.salida }}</td>
-                            <td>{{ v.llegada }}</td>
+                            <td>{{ v.salida|date:"d-m-Y" }} {{v.desplazamientoIda.vehiculo}}</td>
+                            <td>{{ v.llegada|date:"d-m-Y" }} {{v.desplazamientoVuelta.vehiculo}}</td>
+                            {% if v.paquete %}
+                                <td>{{ v.paquete.nombre }}</td>
+                            {% else %}
+                                <td>-</td>
+                            {% endif %}
+                            <td>{{ v.precioTotal }}€</td>
+                            <td><a href="{% url 'detalle_viaje' id=v.id %}">Ver detalles</a></td>
                         </tr>
-                        {% endfor %}
                     </table>
                 </div>
+                {% endfor %}
             </div>
+        </div>
     </div>
 </body>
 

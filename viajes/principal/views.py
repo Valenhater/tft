@@ -108,6 +108,7 @@ def guardar_viaje(request):
         salida = request.GET.get('salida')
         llegada = request.GET.get('llegada')
         pagado = request.GET.get('pagado')
+        paquete = request.GET.get('paquete')
         precioTotal = request.GET.get('precioTotal')
 
         # Obtener el usuario logueado
@@ -123,6 +124,7 @@ def guardar_viaje(request):
             salida=salida,
             llegada=llegada,
             pagado=pagado,
+            paquete_id=paquete,
             precioTotal=precioTotal,
         )
 
@@ -149,12 +151,18 @@ def verViajes(request):
     # Obtén los viajes del usuario
     viajes = Viaje.objects.filter(usuario=usuario, pagado=1)
     # Renderiza el template con los datos de los viajes
+    
     return render(request, 'verViajes.html', {'viajes': viajes})
 
 @login_required
 def detalle_alojamiento(request, id):
     alojamiento = get_object_or_404(Alojamiento, id=id)
     return render(request, 'detalle_alojamiento.html', {'alojamiento': alojamiento})
+
+@login_required
+def detalle_viaje(request, id):
+    viaje = get_object_or_404(Viaje, id=id)
+    return render(request, 'detalle_viaje.html', {'viaje': viaje})
 
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 

@@ -17,14 +17,14 @@
     {% include 'includes/cabecera.html' %}
     <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh">
         <div class="formulario shadow">
-            <form action="../confViaje/" method="POST">
+            <form action="../confViaje/" method="POST" onsubmit="return validarFormulario()">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-sm">
                         <label for="origen">Desde:</label>
-                        <input type="search" name="origen" placeholder="Origen" list="destinos" id="myInput">
+                        <input type="search" name="origen" placeholder="Origen" list="destinos" id="origen">
                         <label for="destino">a:</label>
-                        <input type="search" name="destino" placeholder="Destino" list="destinos" id="myInput">
+                        <input type="search" name="destino" placeholder="Destino" list="destinos" id="destino">
                     </div>
                     <div class="col-sm">
                         <label for="salida">Salida</label>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-sm">
                         <label for="salida">Viajeros</label>
-                        <input type="number" min="1" name="viajeros">
+                        <input type="number" min="1" name="viajeros" id="viajeros">
                         <button type="submit">Enviar</button>
                     </div>
                 </div>
@@ -48,6 +48,21 @@
     </div>
 </body>
 <script>
+    function validarFormulario() {
+        var origen = document.getElementById("origen").value;
+        var destino = document.getElementById("destino").value;
+        var salida = document.getElementById("salida").value;
+        var llegada = document.getElementById("llegada").value;
+        var viajeros = document.getElementById("viajeros").value;
+
+        if (origen === "" || destino === "" || salida === "" || llegada === "" || viajeros === "") {
+            alert("Por favor, completa todos los campos antes de enviar el formulario.");
+            return false;
+        }
+
+        return true;
+    }
+
     // Obtener la fecha actual en formato YYYY-MM-DD
     var today = new Date().toISOString().split("T")[0];
     

@@ -60,7 +60,7 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <h3>{{ a.nombre }} - {{ a.precio }}€ / noche</h3>
                             <div class="info-piso">
                                 <span class="icoHuespedes"></span> {{ a.nhuespedes }} Huéspedes
@@ -68,7 +68,7 @@
                                 <span class="icoBanos"></span> {{ a.nbanos }} Baños
                             </div>
                             <br>
-                            <p>{{ a.descripcion }}</p>
+                            <p id="descripcion">{{ a.descripcion }}</p>
                             <div class="detalles">
                                 {% with index=forloop.counter0|add:"-1" %}
                                 <p>Precio total: {{ precio_total|index:index }}€</p>
@@ -95,8 +95,14 @@
                         <div class="col-4 photo">
                             <img src="/media/{{ d.foto }}" alt="">
                         </div>
-                        <div class="col-8">
-                            <h3>{{ d.nombre }} - {{ d.precio }}€</h3>
+                        <div class="col-7">
+                            <b>
+                                <h3>{{ d.nombre }}</h3>
+                            </b>
+                            <h4>{{ d.precio }}€ / persona</h4><br>
+                            <p>- Tipo de Transporte: {{ d.vehiculo }}</p>
+                            <p>- Origen: {{ d.origen }}</p>
+                            <p>- Destino: {{ d.destino }}</p>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="despIda" value="{{ d.id }}" data-precio="{{ d.precio }}"
@@ -117,9 +123,14 @@
                         <div class="col-4 photo">
                             <img src="/media/{{ d.foto }}" alt="">
                         </div>
-                        <div class="col-8">
-                            <h3>{{ d.nombre }} - {{ d.precio }}€ / persona</h3>
-                            <p>- Precio Total para {{ nHuespedes }} huéspedes: €</p>
+                        <div class="col-7">
+                            <b>
+                                <h3>{{ d.nombre }}</h3>
+                            </b>
+                            <h4>{{ d.precio }}€ / persona</h4><br>
+                            <p>- Tipo de Transporte: {{ d.vehiculo }}</p>
+                            <p>- Origen: {{ d.origen }}</p>
+                            <p>- Destino: {{ d.destino }}</p>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="despVuelta" value="{{ d.id }}" data-precio="{{ d.precio }}"
@@ -139,11 +150,11 @@
                         <div class="col-4 photo">
                             <img src="/media/{{ p.foto }}" alt="">
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <h3>{{ p.nombre }} - {{ p.precio }}€</h3>
                         </div>
                         <div class="col-4 cbox">
-                            <input type="checkbox" name="despVuelta" value="{{ p.id }}" data-precio="{{ p.precio }}"
+                            <input type="checkbox" name="paquete" value="{{ p.id }}" data-precio="{{ p.precio }}"
                                 class="producto-checkbox">
                         </div>
                     </div>
@@ -157,7 +168,9 @@
             <input type="hidden" name="pagado" value="0">
             <div class="subContenedor shadow">
                 <div class="contenedor2 shadow">
-                    <div id="total-container">Total: 0€</div>
+                    <h2>
+                        <div id="total-container">Total: 0€</div>
+                    </h2>
                     <div class="button-container">
                         <button type="submit" class="my-button">Enviar</button>
                     </div>
@@ -218,6 +231,13 @@
             $('#precioTotal').val(total); // Establecer el valor con 2 decimales
         });
     });
+    var maxCaracteres = 270;
+    var miParrafo = document.getElementById("descripcion");
+
+    if (miParrafo.textContent.length > maxCaracteres) {
+        var textoRecortado = miParrafo.textContent.slice(0, maxCaracteres) + "...";
+        miParrafo.textContent = textoRecortado;
+    }
 </script>
 
 </html>
