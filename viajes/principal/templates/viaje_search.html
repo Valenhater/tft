@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-<!-- {% for p in paquetes %}<p>-</p><li>{{p.nombre}} - {{p.descripcion}} {{p.precio}}</li>{% endfor %} -->
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,9 +13,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Viajes Valegio</title>
 </head>
+
 <body class="fondo">
     {% include 'includes/cabecera.html' %}
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh">
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 30vh">
         <div class="formulario shadow">
             <form action="../confViaje/" method="POST" onsubmit="return validarFormulario()">
                 {% csrf_token %}
@@ -40,40 +41,101 @@
                 </div>
                 <datalist id="destinos">
                     {% for d in destinos %}
-                        <option value="{{ d.nombre }}">
+                    <option value="{{ d.nombre }}">
                     {% endfor %}
                 </datalist>
             </form>
         </div>
     </div>
-</body>
-<script>
-    function validarFormulario() {
-        var origen = document.getElementById("origen").value;
-        var destino = document.getElementById("destino").value;
-        var salida = document.getElementById("salida").value;
-        var llegada = document.getElementById("llegada").value;
-        var viajeros = document.getElementById("viajeros").value;
+    
+    <div class="contenedorCarousel">
+        <div class="carousel-wrapper">
+            <div class="flechaIz">
+                <a class="carousel-control-prev" href="#multiItemCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </div>
+            <div class="cartas">
+                <h1 class="tit">Destinos</h1><br>
+                <div id="multiItemCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for destino in destinos %}
+                        {% if forloop.counter0|divisibleby:3 %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="row justify-content-center">
+                                {% endif %}
+                                <div class="col-md-3">
+                                    <div class="card h-100">
+                                        <img src="{{ destino.foto.url }}" class="card-img-top" alt="{{ destino.nombre }}">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">{{ destino.nombre }}</h5>
+                                            <p class="card-text">{{ destino.descripcion }}</p>
+                                            <div class="mt-auto">
+                                                <a href="{% url 'detalle_destino' id=destino.id %}" class="card-link">Ver detalles</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if forloop.counter|divisibleby:3 or forloop.last %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flechaDr">
+            <a class="carousel-control-next" href="#multiItemCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    
 
-        if (origen === "" || destino === "" || salida === "" || llegada === "" || viajeros === "") {
-            alert("Por favor, completa todos los campos antes de enviar el formulario.");
-            return false;
+    <script>
+        function validarFormulario() {
+            var origen = document.getElementById("origen").value;
+            var destino = document.getElementById("destino").value;
+            var salida = document.getElementById("salida").value;
+            var llegada = document.getElementById("llegada").value;
+            var viajeros = document.getElementById("viajeros").value;
+
+            if (origen === "" || destino === "" || salida === "" || llegada === "" || viajeros === "") {
+                alert("Por favor, completa todos los campos antes de enviar el formulario.");
+                return false;
+            }
+
+            return true;
         }
 
-        return true;
-    }
+        // Obtener la fecha actual en formato YYYY-MM-DD
+        var today = new Date().toISOString().split("T")[0];
 
-    // Obtener la fecha actual en formato YYYY-MM-DD
-    var today = new Date().toISOString().split("T")[0];
-    
-    // Establecer la fecha mínima de salida y llegada
-    document.getElementById("salida").setAttribute("min", today);
-    document.getElementById("llegada").setAttribute("min", today);
-    
-    // Actualizar la fecha mínima de llegada cuando se selecciona una fecha de salida
-    document.getElementById("salida").addEventListener("change", function() {
-        var selectedDate = this.value;
-        document.getElementById("llegada").setAttribute("min", selectedDate);
-    });
-</script>
+        // Establecer la fecha mínima de salida y llegada
+        document.getElementById("salida").setAttribute("min", today);
+        document.getElementById("llegada").setAttribute("min", today);
+
+        // Actualizar la fecha mínima de llegada cuando se selecciona una fecha de salida
+        document.getElementById("salida").addEventListener("change", function () {
+            var selectedDate = this.value;
+            document.getElementById("llegada").setAttribute("min", selectedDate);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var maxCaracteres = 270;
+            var miParrafo = document.getElementsByClassName("card-text");
+
+            for (var i = 0; i < miParrafo.length; i++) {
+                if (miParrafo[i].innerText.length > maxCaracteres) {
+                    var textoRecortado = miParrafo[i].innerText.slice(0, maxCaracteres) + "...";
+                    miParrafo[i].innerText = textoRecortado;
+                }
+            }
+        });
+    </script>
+</body>
+
 </html>

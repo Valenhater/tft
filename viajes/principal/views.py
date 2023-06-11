@@ -164,6 +164,13 @@ def detalle_viaje(request, id):
     viaje = get_object_or_404(Viaje, id=id)
     return render(request, 'detalle_viaje.html', {'viaje': viaje})
 
+@login_required
+def detalle_destino(request, id):
+    destino = get_object_or_404(Destino, id=id)
+    alojamientos = Alojamiento.objects.filter(destino=destino)
+    paquete = Paquete.objects.filter(destino=destino)
+    return render(request, 'detalle_destino.html', {'destino': destino, 'alojamientos': alojamientos, 'paquetes':paquete})
+
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 @login_required

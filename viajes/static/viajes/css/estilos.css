@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap');
-*{
+
+* {
   font-family: 'Nunito', sans-serif;
 }
 
@@ -59,7 +60,7 @@
 
 }
 
-.carousel-inner{
+.carousel-inner {
   border-radius: 7px;
 }
 
@@ -84,14 +85,16 @@
   transform: translateX(-0.6rem);
 }
 
-.contenedor3,.contenedor33 {
+.contenedor3,
+.contenedor33 {
   background-color: rgba(255, 255, 255, 0.8);
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
-  
+
 }
-.contenedor33{
+
+.contenedor33 {
   display: flex;
 }
 
@@ -99,7 +102,7 @@
   flex: 1;
 }
 
-.imagen-contenedor img{
+.imagen-contenedor img {
   margin-right: 5px;
   padding-left: 25px;
   width: 15vw;
@@ -128,13 +131,16 @@
 }
 
 .my-carousel {
-        max-width: 600px; /* Ajusta el tamaño máximo deseado */
-        margin: 0 auto; /* Centra horizontalmente el carousel */
-    }
-    .my-carousel .carousel-inner img {
-        width: 100%;
-        height: auto;
-    }
+  max-width: 600px;
+  /* Ajusta el tamaño máximo deseado */
+  margin: 0 auto;
+  /* Centra horizontalmente el carousel */
+}
+
+.my-carousel .carousel-inner img {
+  width: 100%;
+  height: auto;
+}
 
 .photo img {
   width: 100%;
@@ -173,15 +179,15 @@ a {
 
 }
 
-.register tr td{
+.register tr td {
   width: min-content;
 }
 
-.register tr .iz{
+.register tr .iz {
   text-align: start;
 }
 
-.register input{
+.register input {
   width: 10vw;
 }
 
@@ -283,15 +289,17 @@ a {
   padding-top: 10px;
 }
 
-.tablaViajes{
+.tablaViajes {
   width: 100%;
 }
-.tablaViajes th,td{
+
+.tablaViajes th,
+td {
   width: 20%;
   text-align: center;
 }
 
-.contLogin{
+.contLogin {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -299,8 +307,22 @@ a {
   transform: translateY(-10vh);
   font-size: 20px;
 }
+.contenedorCarousel{
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  border-radius: 9px;
+  margin-left: 9vw;
+  margin-right: 9vw;
+  padding: 15px;
+}
+.flechaIz a, .flechaDr a{
+  transform: translate(0%, 15%);
+}
 
-.btn{
+.btn {
   width: 8vw;
   font-size: 20px;
+}
+
+.tit{
+  text-align: center;
 }
