@@ -16,6 +16,20 @@
     <div class="contenedor">
         <div class="subContenedor">
             <div class="contenedor-wrapper">
+                <h1>Destino</h1>
+            </div>
+            <div class="contenedor-wrapper">
+                <div class="contenedor3">
+                    <h2>{{ viaje.alojamiento.destino.nombre }}</h2>
+                    <p>{{ viaje.alojamiento.destino.descripcion }}</p>
+                    <div class="fotoDestino"style="text-align: center;">
+                        <img src="{{ viaje.alojamiento.destino.foto.url }}" alt="" width="70%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="subContenedor">
+            <div class="contenedor-wrapper">
                 <h1>Alojamiento</h1>
             </div>
             <div class="contenedor-wrapper">
