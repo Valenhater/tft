@@ -61,18 +61,19 @@
                             </a>
                         </div>
                         <div class="col-7">
-                            <h3>{{ a.nombre }} - {{ a.precio }}€ / noche</h3>
+                            <h3>{{ a.nombre }}</h3>
+                            <h4>{{ a.precio }}€ / noche</h4>
                             <div class="info-piso">
                                 <span class="icoHuespedes"></span> {{ a.nhuespedes }} Huéspedes
                                 <span class="icoCamas"></span> {{ a.nhabitaciones }} Habitaciones
                                 <span class="icoBanos"></span> {{ a.nbanos }} Baños
                             </div>
                             <br>
-                            <p id="descripcion">{{ a.descripcion }}</p>
+                            <p id="descripcion">{{ a.descripcion|slice:":180" }}...</p>
                             <div class="detalles">
                                 {% with index=forloop.counter0|add:"-1" %}
                                 <p>Precio total: {{ precio_total|index:index }}€</p>
-                                <a href="{% url 'detalle_alojamiento' id=a.id %}">Ver detalles</a>
+                                <a href="{% url 'detalle_alojamiento' id=a.id %}" target="_blank">Ver detalles</a>
                                 {% endwith %}
                             </div>
                         </div>
@@ -90,6 +91,7 @@
                     <h1>Desplazamiento Ida</h1>
                 </div>
                 <div class="contenedor-wrapper">
+                    <p class="sbTx">El desplazamiento es opcional*</p>
                     {% for d in desplazamientosOrigen %}
                     <div class="contenedor2 shadow">
                         <div class="col-4 photo">
@@ -100,9 +102,9 @@
                                 <h3>{{ d.nombre }}</h3>
                             </b>
                             <h4>{{ d.precio }}€ / persona</h4><br>
-                            <p>- Tipo de Transporte: {{ d.vehiculo }}</p>
-                            <p>- Origen: {{ d.origen }}</p>
-                            <p>- Destino: {{ d.destino }}</p>
+                            <p><b>- Tipo de Transporte: </b>{{ d.vehiculo }}</p>
+                            <p><b>- Origen: </b>{{ d.origen }}</p>
+                            <p><b>- Destino: </b>{{ d.destino }}</p>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="despIda" value="{{ d.id }}" data-precio="{{ d.precio }}"
@@ -118,6 +120,7 @@
                     <h1>Desplazamiento Vuelta</h1>
                 </div>
                 <div class="contenedor-wrapper">
+                    <p class="sbTx">El desplazamiento es opcional*</p>
                     {% for d in desplazamientosDestino %}
                     <div class="contenedor2 shadow">
                         <div class="col-4 photo">
@@ -128,9 +131,9 @@
                                 <h3>{{ d.nombre }}</h3>
                             </b>
                             <h4>{{ d.precio }}€ / persona</h4><br>
-                            <p>- Tipo de Transporte: {{ d.vehiculo }}</p>
-                            <p>- Origen: {{ d.origen }}</p>
-                            <p>- Destino: {{ d.destino }}</p>
+                            <p><b>- Tipo de Transporte: </b>{{ d.vehiculo }}</p>
+                            <p><b>- Origen: </b>{{ d.origen }}</p>
+                            <p><b>- Destino: </b>{{ d.destino }}</p>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="despVuelta" value="{{ d.id }}" data-precio="{{ d.precio }}"
@@ -140,18 +143,22 @@
                     {% endfor %}
                 </div>
             </div>
+            {% if paquetes%}
             <div class="subContenedor shadow">
                 <div class="contenedor-wrapper">
                     <h1>Paquetes</h1>
                 </div>
                 <div class="contenedor-wrapper">
+                    <p class="sbTx">El paquete es opcional*</p>
                     {% for p in paquetes %}
                     <div class="contenedor2 shadow">
                         <div class="col-4 photo">
                             <img src="/media/{{ p.foto }}" alt="">
                         </div>
                         <div class="col-7">
-                            <h3>{{ p.nombre }} - {{ p.precio }}€</h3>
+                            <h3>{{ p.nombre }}</h3>
+                            <h4>{{p.precio}}€/persona</h4>
+                            <p>{{ p.descripcion|linebreaksbr }}</p>
                         </div>
                         <div class="col-4 cbox">
                             <input type="checkbox" name="paquete" value="{{ p.id }}" data-precio="{{ p.precio }}"
@@ -161,13 +168,14 @@
                     {% endfor %}
                 </div>
             </div>
+            {% endif %}
             <input type="hidden" name="nHuespedes" value="{{ nHuespedes }}" id="nHuespedes">
             <input type="hidden" name="salida" value="{{ salida }}">
             <input type="hidden" name="llegada" value="{{ llegada }}">
             <input type="hidden" name="precioTotal" id="precioTotal">
             <input type="hidden" name="pagado" value="0">
             <div class="subContenedor shadow">
-                <div class="contenedor2 shadow">
+                <div class="contenedor22 shadow">
                     <h2>
                         <div id="total-container">Total: 0€</div>
                     </h2>
@@ -231,7 +239,7 @@
             $('#precioTotal').val(total); // Establecer el valor con 2 decimales
         });
     });
-    var maxCaracteres = 270;
+    var maxCaracteres = 200;
     var miParrafo = document.getElementById("descripcion");
 
     if (miParrafo.textContent.length > maxCaracteres) {

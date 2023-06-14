@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <title>Detalle del Alojamiento</title>
+    <title>Detalle de {{ alojamiento.nombre }}</title>
 </head>
 
 <body class="fondo">
@@ -26,7 +26,7 @@
                         <b><span class="icoCamas"></span> {{ alojamiento.nhabitaciones }} Habitaciones</b>
                         <b><span class="icoBanos"></span> {{ alojamiento.nbanos }} Baños</b>
                     </div><br>
-                    <p><b>Descripción: </b>{{ alojamiento.descripcion }}</p>
+                    <p><b>Descripción: </b>{{ alojamiento.descripcion|linebreaksbr }}</p>
                     <ul>
                         <li><b>Tipo: </b>{{ alojamiento.tipo }}</li>
                         <li><b>Destino: </b>{{ alojamiento.destino }}</li>
@@ -34,9 +34,9 @@
                     </ul>
                     <div id="carouselExampleIndicators" class="carousel slide my-carousel" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            {% for foto in alojamiento.foto_set.all %}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                            {% endfor %}
                         </ol>
                         <div class="carousel-inner">
                             {% for foto in alojamiento.foto_set.all %}
@@ -53,7 +53,7 @@
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

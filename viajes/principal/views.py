@@ -98,6 +98,10 @@ def logout_view(request):
     return redirect('registrar')
 
 @login_required
+def ayuda(request):
+    return render(request, 'ayuda.html')
+
+@login_required
 def guardar_viaje(request):
     if request.method == 'GET':
         # Obtener los datos del formulario
@@ -163,6 +167,9 @@ def detalle_alojamiento(request, id):
 def detalle_viaje(request, id):
     viaje = get_object_or_404(Viaje, id=id)
     return render(request, 'detalle_viaje.html', {'viaje': viaje})
+
+def redAnterior(request):
+    return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def detalle_destino(request, id):

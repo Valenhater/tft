@@ -15,6 +15,9 @@
     {% include 'includes/cabecera.html' %}
     <div class="contenedor">
         <div class="subContenedor">
+            <div class="contVolver">
+                <a href="{% url 'verViajes' %}" class="volver">&lt;&lt; Volver a la lista de viajes</a>
+            </div>
             <div class="contenedor-wrapper">
                 <h1>Destino</h1>
             </div>
@@ -40,7 +43,7 @@
                         <b><span class="icoCamas"></span> {{ viaje.alojamiento.nhabitaciones }} Habitaciones</b>
                         <b><span class="icoBanos"></span> {{ viaje.alojamiento.nbanos }} Baños</b>
                     </div><br>
-                    <p><b>Descripción: </b>{{ viaje.alojamiento.descripcion }}</p>
+                    <p><b>Descripción: </b>{{ viaje.alojamiento.descripcion|linebreaksbr }}</p>
                     <ul>
                         <li><b>Tipo: </b>{{ viaje.alojamiento.tipo }}</li>
                         <li><b>Destino: </b>{{ viaje.alojamiento.destino }}</li>
@@ -48,24 +51,22 @@
                     </ul>
                     <div id="carouselExampleIndicators" class="carousel slide my-carousel" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            {% for foto in viaje.alojamiento.foto_set.all %}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                            {% endfor %}
                         </ol>
                         <div class="carousel-inner">
                             {% for foto in viaje.alojamiento.foto_set.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ foto.foto.url }}" class="d-block w-100" alt="Foto">
+                                <img src="{{ foto.foto.url }}" class="d-block img-fluid" alt="Foto">
                             </div>
                             {% endfor %}
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                            data-slide="prev">
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                            data-slide="next">
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -138,7 +139,6 @@
         </div>
         {% endif %}
     </div>
-    <a href="{% url 'verViajes' %}">Volver a la lista de viajes</a>
 </body>
 
 </html>

@@ -75,7 +75,8 @@
   flex-direction: column;
 }
 
-.contenedor2 {
+.contenedor2,
+.contenedor22 {
   width: 100%;
   margin: 10px;
   padding: 20px;
@@ -83,6 +84,10 @@
   display: flex;
   background-color: rgba(255, 255, 255, 0.8);
   transform: translateX(-0.6rem);
+}
+
+.contenedor2 {
+  height: 17vw;
 }
 
 .contenedor3,
@@ -105,7 +110,7 @@
 .imagen-contenedor img {
   margin-right: 5px;
   padding-left: 25px;
-  width: 15vw;
+  width: 19vw;
   border-radius: 5px;
 }
 
@@ -120,13 +125,13 @@
 
 .carousel-1 img {
   width: 23vw;
-  height: 12vw;
+  height: 15vw;
   object-fit: cover;
 }
 
 .carousel-1 {
   width: 23vw;
-  height: 12vw;
+  height: 15vw;
   object-fit: cover;
 }
 
@@ -160,7 +165,7 @@ a {
 
 .cbox {
   position: absolute;
-  top: 50%;
+  top: 0%;
   right: 0;
   transform: translate(10%, 0%);
   display: flex;
@@ -281,6 +286,14 @@ a {
 .navbar-brand {
   font-size: larger !important;
 }
+.contVolver{
+  text-align: right !important;
+}
+
+.subContenedor .volver {
+  margin-left: auto;
+  color: rgba(0, 0, 0, 0.5);
+}
 
 .detalles {
   position: absolute;
@@ -299,6 +312,10 @@ td {
   text-align: center;
 }
 
+.sbTx {
+  color: rgba(0, 0, 0, 0.5);
+}
+
 .contLogin {
   display: flex;
   justify-content: center;
@@ -307,14 +324,17 @@ td {
   transform: translateY(-10vh);
   font-size: 20px;
 }
-.contenedorCarousel{
+
+.contenedorCarousel {
   background-color: rgba(255, 255, 255, 0.7) !important;
   border-radius: 9px;
   margin-left: 9vw;
   margin-right: 9vw;
   padding: 15px;
 }
-.flechaIz a, .flechaDr a{
+
+.flechaIz a,
+.flechaDr a {
   transform: translate(0%, 15%);
 }
 
@@ -323,6 +343,6 @@ td {
   font-size: 20px;
 }
 
-.tit{
+.tit {
   text-align: center;
 }

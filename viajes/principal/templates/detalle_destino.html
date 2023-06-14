@@ -8,21 +8,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <title>Detalle del Viaje</title>
+    <title>Detalle del {{ destino.nombre }}</title>
 </head>
 
 <body class="fondo">
     {% include 'includes/cabecera.html' %}
     <div class="contenedor">
         <div class="subContenedor">
+            <div class="contVolver">
+                <a href="{% url 'buscarViaje' %}" class="volver">&lt;&lt; Volver a la búsqueda de viajes</a>
+            </div>
             <div class="contenedor-wrapper">
                 <h1>Destino</h1>
             </div>
             <div class="contenedor-wrapper">
                 <div class="contenedor3">
                     <h2>{{ destino.nombre }}</h2>
-                    <p>{{ destino.descripcion }}</p>
-                    <div class="fotoDestino"style="text-align: center;">
+                    <p>{{ destino.descripcion|linebreaksbr }}</p>
+                    <div class="fotoDestino" style="text-align: center;">
                         <img src="{{ destino.foto.url }}" alt="" width="70%">
                     </div>
                 </div>
@@ -48,11 +51,14 @@
                         <li><b>Destino: </b>{{ alojamiento.destino }}</li>
                         <li><b>Precio: </b>{{ alojamiento.precio }} € / noche</li>
                     </ul>
-                    <div id="carouselExampleIndicators" class="carousel slide my-carousel" data-ride="carousel">
+                    <div id="carouselExampleIndicators{{ alojamiento.id }}" class="carousel slide my-carousel"
+                        data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            {% for foto in alojamiento.foto_set.all %}
+                            <li data-target="#carouselExampleIndicators{{ alojamiento.id }}"
+                                data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}>
+                            </li>
+                            {% endfor %}
                         </ol>
                         <div class="carousel-inner">
                             {% for foto in alojamiento.foto_set.all %}
@@ -61,13 +67,13 @@
                             </div>
                             {% endfor %}
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                            data-slide="prev">
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators{{ alojamiento.id }}"
+                            role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                            data-slide="next">
+                        <a class="carousel-control-next" href="#carouselExampleIndicators{{ alojamiento.id }}"
+                            role="button" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -80,14 +86,15 @@
         {% if paquetes %}
         <div class="subContenedor">
             <div class="contenedor-wrapper">
-                <h1>Paquete</h1>
+                <h1>Paquetes</h1>
             </div>
             {% for paquete in paquetes %}
             <div class="contenedor-wrapper">
                 <div class="contenedor33">
                     <div class="text-contenedor"> <!-- Nuevo contenedor para el texto -->
                         <h2>{{ paquete.nombre }}</h2>
-                        <p>{{paquete.descripcion}}</p>
+                        <h3>{{paquete.precio}}€/persona</h3>
+                        <p>{{paquete.descripcion|linebreaksbr}}</p>
                     </div>
                     <div class="imagen-contenedor"> <!-- Nuevo contenedor para la imagen -->
                         <img src="{{paquete.foto.url}}" alt="">
@@ -98,7 +105,6 @@
         </div>
         {% endif %}
     </div>
-    <a href="{% url 'buscarViaje' %}">Volver a la búsqueda de viajes</a>
 </body>
 
 </html>
